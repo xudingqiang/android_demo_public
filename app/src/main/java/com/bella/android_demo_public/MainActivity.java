@@ -2,13 +2,31 @@ package com.bella.android_demo_public;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
+
+import com.bella.android_demo_public.activity.LibpagDemoActivity;
 
 public class MainActivity extends AppCompatActivity {
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        context = this;
+        initView();
+
     }
+
+    private void initView(){
+        TextView test1 = findViewById(R.id.test1);
+        test1.setText("libpag动画测试");
+        test1.setOnClickListener(view ->{
+            startActivity(new Intent(context, LibpagDemoActivity.class));
+        });
+    }
+
 }
