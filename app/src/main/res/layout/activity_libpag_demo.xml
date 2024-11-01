@@ -26,9 +26,10 @@
             android:focusable="true"
             android:gravity="center"
             android:text="PAGView"
+            android:layout_margin="8dp"
             android:textAllCaps="false"
             android:textColor="#ffffff"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
 
         <Button
             android:id="@+id/play_second"
@@ -38,10 +39,11 @@
             android:clickable="true"
             android:focusable="true"
             android:gravity="center"
+            android:layout_margin="8dp"
             android:text="PAGImageView"
             android:textAllCaps="false"
             android:textColor="#ffffff"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
 
     </LinearLayout>
 

@@ -131,7 +131,7 @@ public class LibpagDemoActivity extends AppCompatActivity  implements View.OnCli
             int itemWidth = sceenWidth / 4;
             int itemHeight = sceenWidth / 4;
 
-            for (int i = 0; i < 20; i++) {
+            for (int i = 0; i < 3; i++) {
                 PAGImageView pagImageView = new PAGImageView(this);
                 String path = "assets://list/" + i + ".pag";
                 pagImageView.setPath(path);
