@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.bella.android_demo_public.activity.EglTestActivity;
 import com.bella.android_demo_public.activity.LibpagDemoActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,6 +27,12 @@ public class MainActivity extends AppCompatActivity {
         test1.setText("libpag动画测试");
         test1.setOnClickListener(view ->{
             startActivity(new Intent(context, LibpagDemoActivity.class));
+        });
+
+        TextView test2 = findViewById(R.id.test2);
+        test2.setText("EGL测试");
+        test2.setOnClickListener(view ->{
+            startActivity(new Intent(context, EglTestActivity.class));
         });
     }
 
