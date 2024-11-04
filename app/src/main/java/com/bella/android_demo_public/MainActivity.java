@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.bella.android_demo_public.activity.EglTestActivity;
 import com.bella.android_demo_public.activity.LibpagDemoActivity;
+import com.bella.android_demo_public.activity.RoomTestActivity;
 
 public class MainActivity extends AppCompatActivity {
     Context context;
@@ -34,6 +35,14 @@ public class MainActivity extends AppCompatActivity {
         test2.setOnClickListener(view ->{
             startActivity(new Intent(context, EglTestActivity.class));
         });
+
+        TextView test3 = findViewById(R.id.test3);
+        test3.setText("Room测试");
+        test3.setOnClickListener(view ->{
+            startActivity(new Intent(context, RoomTestActivity.class));
+        });
+
+
     }
 
 }
