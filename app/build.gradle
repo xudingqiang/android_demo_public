@@ -43,7 +43,7 @@ dependencies {
     implementation group: 'com.tencent.tav', name: 'libpag', version: '4.4.8'
     implementation 'androidx.exifinterface:exifinterface:1.3.6'
 
-
+    api 'com.google.code.gson:gson:2.2.4'
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version" // 如果使用 Java
 }
