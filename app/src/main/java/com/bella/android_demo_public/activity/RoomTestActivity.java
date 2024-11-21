@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.view.Window;
 import android.widget.TextView;
 
 import com.bella.android_demo_public.BellaDataBase;
@@ -47,6 +48,7 @@ public class RoomTestActivity extends AppCompatActivity implements View.OnClickL
         test2.setOnClickListener(this);
         test3.setOnClickListener(this);
         test4.setOnClickListener(this);
+
     }
 
     private void queryList() {

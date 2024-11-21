@@ -5,7 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context=".MainActivity">
+
+
 
     <TextView
         android:id="@+id/test1"
@@ -37,5 +40,14 @@
         style="@style/textStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+
+    <LinearLayout
+        android:id="@+id/layoutParent"
+        android:layout_width="match_parent"
+        android:minHeight="60dp"
+        android:background="#f2f2f2"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" />
 
 </LinearLayout>
