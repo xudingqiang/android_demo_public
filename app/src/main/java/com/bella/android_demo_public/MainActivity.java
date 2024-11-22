@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bella.android_demo_public.activity.EglTestActivity;
 import com.bella.android_demo_public.activity.LibpagDemoActivity;
+import com.bella.android_demo_public.activity.RecyclerviewSelectionTestActivity;
 import com.bella.android_demo_public.activity.RoomTestActivity;
 import com.bella.android_demo_public.utils.LogTool;
 
@@ -94,6 +95,12 @@ public class MainActivity extends AppCompatActivity {
         test3.setText("Room测试");
         test3.setOnClickListener(view ->{
             startActivity(new Intent(context, RoomTestActivity.class));
+        });
+
+        TextView test4 = findViewById(R.id.test4);
+        test4.setText("RecyclerviewSelection测试");
+        test4.setOnClickListener(view ->{
+            startActivity(new Intent(context, RecyclerviewSelectionTestActivity.class));
         });
 
 
