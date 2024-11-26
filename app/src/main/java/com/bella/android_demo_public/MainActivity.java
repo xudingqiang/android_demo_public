@@ -21,10 +21,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bella.android_demo_public.activity.EglTestActivity;
+import com.bella.android_demo_public.activity.GpsSetActivity;
 import com.bella.android_demo_public.activity.LibpagDemoActivity;
 import com.bella.android_demo_public.activity.RecyclerviewSelectionTestActivity;
 import com.bella.android_demo_public.activity.RoomTestActivity;
 import com.bella.android_demo_public.utils.LogTool;
+import com.bella.android_demo_public.utils.Utils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -103,6 +105,11 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(context, RecyclerviewSelectionTestActivity.class));
         });
 
+        TextView test5 = findViewById(R.id.test5);
+        test5.setText("GPS设置");
+        test5.setOnClickListener(view ->{
+            startActivity(new Intent(context, GpsSetActivity.class));
+        });
 
 
         LinearLayout layoutParent = new LinearLayout(this);
@@ -119,6 +126,12 @@ public class MainActivity extends AppCompatActivity {
         getWindow().addContentView(layoutParent,params);
 
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Utils.parseGpsData(MainActivity.this);
+            }
+        }).start();
 
     }
 

@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">许什么心愿</string>
     <string name="search">搜索...</string>
+
+    <string name="gps_panel_text">Choose location</string>
+    <string name="gps_country">Country</string>
+    <string name="gps_province">Province</string>
+    <string name="gps_city">City</string>
 </resources>

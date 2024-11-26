@@ -6,13 +6,17 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import com.bella.android_demo_public.bean.RegionInfo;
 import com.bella.android_demo_public.bean.User;
+import com.bella.android_demo_public.dao.RegionDao;
 import com.bella.android_demo_public.dao.UserDao;
 
-@Database(entities = {User.class}, version = 1 ,exportSchema = false)
+@Database(entities = {User.class, RegionInfo.class}, version = 1, exportSchema = false)
 public abstract class BellaDataBase extends RoomDatabase {
 
     public abstract UserDao userDao();
+
+    public abstract RegionDao regionDao();
 
     private static BellaDataBase instance;
 
