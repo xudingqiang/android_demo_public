@@ -2,6 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
+    <uses-permission android:name="com.android.systemui.permission.PLUGIN" />
+    <uses-permission android:name="android.permission.RECEIVE_EMERGENCY_BROADCAST" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -10,7 +19,17 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.Android_demo_public"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".activity.EventbusTestActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.TestKotlinActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.NetTestActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.GpsSetActivity"
             android:exported="false" />
@@ -22,10 +41,18 @@
             android:exported="false" />
         <activity
             android:name=".activity.EglTestActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".activity.LibpagDemoActivity"
-            android:exported="false" />
+            android:exported="true">
+            <intent-filter android:scheme="http">
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <data android:mimeType="application/vnd.desktop" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true">

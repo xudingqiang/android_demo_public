@@ -1,6 +1,8 @@
 package com.bella.android_demo_public.utils;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Build;
 import android.telephony.TelephonyManager;
@@ -247,5 +249,21 @@ public class Utils {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String formattedTime = currentTime.format(formatter);
         return formattedTime;
+    }
+
+    public static String getPackageNameByAppName(Context context, String appName) {
+        PackageManager packageManager = context.getPackageManager();
+
+        // 获取所有已安装的应用信息
+        List<ApplicationInfo> apps = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
+
+        for (ApplicationInfo app : apps) {
+            String appLabel = (String) packageManager.getApplicationLabel(app);  // 获取应用的显示名称
+            if (appLabel != null && appLabel.equalsIgnoreCase(appName)) {
+                return app.packageName;  // 返回包名
+            }
+        }
+
+        return null;  // 如果找不到匹配的应用，返回 null
     }
 }

@@ -1,0 +1,51 @@
+apply plugin: 'java'
+
+group = rootProject.group
+version = rootProject.version
+
+java.sourceCompatibility = JavaVersion.VERSION_1_8
+java.targetCompatibility = JavaVersion.VERSION_1_8
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src'
+            // exclude 'de/greenrobot/event/util/**'
+        }
+    }
+}
+
+javadoc {
+    failOnError = false
+    title = "EventBus ${version} API"
+	options.bottom = 'Available under the Apache License, Version 2.0 - <i>Copyright &#169; 2012-2020 <a href="https://greenrobot.org">greenrobot.org</a>. All Rights Reserved.</i>'
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    archiveClassifier.set("javadoc")
+    from 'build/docs/javadoc'
+}
+
+task sourcesJar(type: Jar) {
+    archiveClassifier.set("sources")
+    from sourceSets.main.allSource
+}
+
+apply from: rootProject.file("gradle/publish.gradle")
+// Set project-specific properties
+afterEvaluate {
+    publishing.publications {
+        mavenJava(MavenPublication) {
+            artifactId = "eventbus-java"
+
+            from components.java
+            artifact javadocJar
+            artifact sourcesJar
+            pom {
+                name = "EventBus"
+                description = "EventBus is a publish/subscribe event bus."
+                packaging = "jar"
+            }
+        }
+    }
+}

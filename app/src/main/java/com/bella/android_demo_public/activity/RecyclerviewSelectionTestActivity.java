@@ -1,8 +1,12 @@
 package com.bella.android_demo_public.activity;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,6 +40,9 @@ public class RecyclerviewSelectionTestActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Window window = getWindow();
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         setContentView(R.layout.activity_recyclerview_selection_test);
         recyclerView = findViewById(R.id.recyclerView);
         btnClick = findViewById(R.id.btnClick);

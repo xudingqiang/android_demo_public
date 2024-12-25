@@ -117,22 +117,22 @@ public class RoomTestActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.test1:
-                queryList();
-                break;
-
-            case R.id.test2:
-                insertUser();
-                break;
-
-            case R.id.test3:
-                updateUser();
-                break;
-
-            case R.id.test4:
-                deleteUser();
-                break;
-        }
+//        switch (view.getId()) {
+//            case R.id.test1:
+//                queryList();
+//                break;
+//
+//            case R.id.test2:
+//                insertUser();
+//                break;
+//
+//            case R.id.test3:
+//                updateUser();
+//                break;
+//
+//            case R.id.test4:
+//                deleteUser();
+//                break;
+//        }
     }
 }
