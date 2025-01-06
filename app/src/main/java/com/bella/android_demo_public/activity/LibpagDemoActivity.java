@@ -26,6 +26,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bella.android_demo_public.R;
+import com.bella.android_demo_public.utils.Utils;
 import com.bella.android_demo_public.view.BackgroundView;
 
 import org.libpag.PAGDiskCache;
@@ -95,7 +96,12 @@ public class LibpagDemoActivity extends AppCompatActivity  implements View.OnCli
             if (pagFile.numImages() > 0) {
 //                PAGImage pagImage = PAGImage.FromAssets(this.getAssets(), "mountain.jpg");
 //                PAGImage pagImage = makePAGImage(this, "mountain.jpg");
-                Bitmap bitmap = createBitmap(this, "mountain.jpg", true);
+                Bitmap bitmapT = createBitmap(this, "mountain.jpg", true);
+                if (bitmapT.getConfig() == Bitmap.Config.HARDWARE) {
+                    // Handle the hardware-backed bitmap case
+                    bitmapT = bitmapT.copy(Bitmap.Config.ARGB_8888, true);  // Copy it to a mutable bitmap
+                }
+                Bitmap bitmap = Utils.addTextWatermark(bitmapT,"Love");
                 Bitmap.Config config = bitmap.getConfig();
                 PAGImage pagImage = PAGImage.FromBitmap(bitmap);
                 pagFile.replaceImage(0, pagImage);

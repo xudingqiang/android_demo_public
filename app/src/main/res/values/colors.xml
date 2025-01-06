@@ -12,5 +12,7 @@
     <color name="selected_color">#eee</color>
     <color name="default_color">#f2f2f2</color>
     <color name="all_bg">#f5f5f5</color>
+    <color name="bg1">#eee</color>
+    <color name="bg2">#ccc</color>
 
 </resources>

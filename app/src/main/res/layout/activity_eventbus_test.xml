@@ -5,6 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#f8f8f8"
     tools:context=".activity.EventbusTestActivity">
 
 
@@ -13,5 +15,49 @@
         android:text="发送消息"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+
+
+    <View
+        android:background="#ff0000"
+        android:layout_marginVertical="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/backgroundImageView1"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_launcher_background"/>
+
+        <ImageView
+            android:id="@+id/foregroundImageView1"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_launcher_foreground"
+            android:layout_centerInParent="true"/>
+
+    </FrameLayout>
+
+
+    <ImageView
+        android:id="@+id/backgroundImageView"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/ic_launcher_background"/>
+
+    <ImageView
+        android:id="@+id/foregroundImageView"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/ic_launcher_foreground"
+        android:layout_centerInParent="true"/>
+
 
 </LinearLayout>

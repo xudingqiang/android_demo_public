@@ -1,13 +1,18 @@
 package com.bella.android_demo_public;
 
+import android.Manifest;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
 import android.graphics.drawable.Icon;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +20,12 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import com.bella.android_demo_public.activity.AnimationTestActivity;
 import com.bella.android_demo_public.activity.EglTestActivity;
 import com.bella.android_demo_public.activity.EventbusTestActivity;
 import com.bella.android_demo_public.activity.GpsSetActivity;
@@ -42,6 +49,12 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     Context context;
     LinearLayout layoutParent;
+
+    public static final int REQUEST_CODE = 1000;
+
+    public static final int REQUEST_CODE_1 = 1001;
+
+    public static final int REQUEST_CODE_2 = 1002;
 
     public static List<Field> getAllFields(Class<?> clazz) {
         List<Field> fields = new ArrayList<>();
@@ -83,6 +96,26 @@ public class MainActivity extends AppCompatActivity {
 //            controller.hide(WindowInsets.Type.systemBars());
 //            controller.setSystemBarsBehavior(WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
 //        }
+
+
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.MANAGE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            // 如果权限未授予，则请求权限
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.MANAGE_EXTERNAL_STORAGE}, REQUEST_CODE_1);
+        }
+
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            // 如果权限未授予，则请求权限
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (!Environment.isExternalStorageManager()) {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                intent.setData(Uri.parse("package:" + getPackageName()));
+                startActivity(intent);
+            }
+        }
+
 
         File file = new File("mnt/sdcard/Desktop/  v个VVv.txt");
         if (file.exists()) {
@@ -212,6 +245,12 @@ public class MainActivity extends AppCompatActivity {
         test8.setText("EventBus测试");
         test8.setOnClickListener(view -> {
             startActivity(new Intent(context, EventbusTestActivity.class));
+        });
+
+        TextView test9 = findViewById(R.id.test9);
+        test9.setText("属性动画测试");
+        test9.setOnClickListener(view -> {
+            startActivity(new Intent(context, AnimationTestActivity.class));
         });
 
 

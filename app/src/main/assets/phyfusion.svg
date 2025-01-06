@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_图层_3" data-name="图层 3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 256 256">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: url(#_未命名的渐变_5);
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6 {
+        stroke-width: 0px;
+      }
+
+      .cls-2 {
+        fill: url(#_未命名的渐变_281-2);
+      }
+
+      .cls-3 {
+        fill: url(#_未命名的渐变_281-3);
+      }
+
+      .cls-4 {
+        fill: url(#_未命名的渐变_281);
+      }
+
+      .cls-5 {
+        fill: url(#_未命名的渐变_281-4);
+      }
+
+      .cls-6 {
+        fill: url(#_未命名的渐变_284);
+      }
+    </style>
+    <linearGradient id="_未命名的渐变_5" data-name="未命名的渐变 5" x1="9.74" y1="114.94" x2="174.28" y2="114.94" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#5154fb"/>
+      <stop offset="1" stop-color="#0eaaff"/>
+    </linearGradient>
+    <linearGradient id="_未命名的渐变_281" data-name="未命名的渐变 281" x1="92.01" y1="169.99" x2="246.26" y2="169.99" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2ae7dd"/>
+      <stop offset="1" stop-color="#10b5fc"/>
+    </linearGradient>
+    <linearGradient id="_未命名的渐变_281-2" data-name="未命名的渐变 281" x1="179.34" y1="194.63" x2="152.94" y2="130.87" xlink:href="#_未命名的渐变_281"/>
+    <linearGradient id="_未命名的渐变_284" data-name="未命名的渐变 284" x1="103.46" y1="89.89" x2="160.54" y2="173.19" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#046dfc"/>
+      <stop offset="1" stop-color="#072cc3"/>
+    </linearGradient>
+    <linearGradient id="_未命名的渐变_281-3" data-name="未命名的渐变 281" x1="125.55" y1="243.08" x2="102.58" y2="179.32" xlink:href="#_未命名的渐变_281"/>
+    <linearGradient id="_未命名的渐变_281-4" data-name="未命名的渐变 281" x1="242.01" y1="156.15" x2="203.28" y2="88.28" xlink:href="#_未命名的渐变_281"/>
+  </defs>
+  <path class="cls-1" d="m92.01,173.42c48.52,0,87.23-42.01,81.75-91.64-4.16-37.68-34.7-68.22-72.39-72.39C51.74,3.92,9.74,42.63,9.74,91.15v128.43c0,1.48,2.01,1.97,2.66.64,6.84-14.09,28.25-46.79,79.61-46.79Z"/>
+  <polygon class="cls-4" points="143.6 196.04 194.67 196.04 194.67 143.94 246.26 143.94 246.26 92.86 92.01 92.86 92.01 247.12 143.6 247.12 143.6 196.04"/>
+  <rect class="cls-2" x="143.6" y="143.94" width="51.08" height="52.1"/>
+  <path class="cls-6" d="m174.19,92.86h-82.18v80.56c44.86,0,81.26-35.92,82.18-80.56Z"/>
+  <rect class="cls-3" x="92.01" y="196.04" width="51.59" height="51.08"/>
+  <rect class="cls-5" x="194.67" y="92.86" width="51.59" height="51.08"/>
+</svg>

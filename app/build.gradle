@@ -60,7 +60,8 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation group: 'androidx.recyclerview', name: 'recyclerview-selection', version: '1.2.0-alpha01'
     implementation 'com.squareup.okhttp3:okhttp:4.9.0'
-//    implementation group: 'org.greenrobot', name: 'eventbus', version: '3.3.1'
-    implementation project(':EventBus')
+    implementation group: 'org.greenrobot', name: 'eventbus', version: '3.3.1'
+//    implementation project(':EventBus')
+    implementation group: 'com.caverock', name: 'androidsvg', version: '1.4'
 
 }

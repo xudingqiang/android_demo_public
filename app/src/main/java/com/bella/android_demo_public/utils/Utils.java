@@ -4,18 +4,34 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.Picture;
+import android.graphics.Rect;
+import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.PictureDrawable;
 import android.os.Build;
 import android.telephony.TelephonyManager;
+import android.util.Log;
+import android.util.Xml;
+import android.widget.ImageView;
 
 import com.bella.android_demo_public.BellaDataBase;
 import com.bella.android_demo_public.R;
 import com.bella.android_demo_public.bean.RegionInfo;
+import com.caverock.androidsvg.SVG;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.xmlpull.v1.XmlPullParser;
 
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -40,7 +56,6 @@ import java.util.Scanner;
  */
 
 public class Utils {
-
 
 
     public static int dip2px(Context context, float dpValue) {
@@ -266,4 +281,185 @@ public class Utils {
 
         return null;  // 如果找不到匹配的应用，返回 null
     }
+
+    public static String getMD5(String input) {
+        try {
+            // 创建一个 MessageDigest 实例，指定使用 MD5 算法
+            MessageDigest digest = MessageDigest.getInstance("MD5");
+
+            // 计算 MD5 值，得到一个字节数组
+            byte[] hashBytes = digest.digest(input.getBytes());
+
+            // 转换字节数组为 16 进制字符串
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hashBytes) {
+                String hex = Integer.toHexString(0xFF & b);
+                if (hex.length() == 1) {
+                    hexString.append('0');
+                }
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Bitmap addTextWatermark(Bitmap source, String watermarkText) {
+        int width = source.getWidth();
+        int height = source.getHeight();
+
+        // 创建一个新的Bitmap，大小与原始Bitmap相同
+        Bitmap watermarkBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+
+        // 创建画布并将原图绘制到画布上
+        Canvas canvas = new Canvas(watermarkBitmap);
+        canvas.drawBitmap(source, 0, 0, null);
+
+        // 设置水印文本样式
+        Paint paint = new Paint();
+        paint.setColor(Color.RED);  // 设置水印文本颜色
+//        paint.setAlpha(100);  // 设置透明度，100代表半透明
+        paint.setTextSize(30f);  // 设置文本大小
+        paint.setTypeface(Typeface.DEFAULT_BOLD);
+        paint.setAntiAlias(true);  // 设置抗锯齿
+
+        // 获取水印文本的边界框，用于计算文本位置
+        Rect textBounds = new Rect();
+        paint.getTextBounds(watermarkText, 0, watermarkText.length(), textBounds);
+        int textWidth = textBounds.width();
+        int textHeight = textBounds.height();
+
+        // 设置文本的位置（右下角）
+        float x = width - textWidth - 20f;  // 距离右侧20像素
+        float y = height - textHeight - 20f;  // 距离底部20像素
+
+        // 在Bitmap上绘制文本水印
+        canvas.drawText(watermarkText, x, y, paint);
+
+        return watermarkBitmap;
+    }
+
+    public static Bitmap getBitmapFromImageView(ImageView imageView) {
+        // 获取 ImageView 中的 Drawable
+        Drawable drawable = imageView.getDrawable();
+
+
+        Bitmap backgroundBitmap ;
+        if (drawable instanceof BitmapDrawable) {
+            backgroundBitmap = ((BitmapDrawable) drawable).getBitmap();
+        } else {
+            // 如果不是 BitmapDrawable 类型，则需要手动转换
+            backgroundBitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(backgroundBitmap);
+            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            drawable.draw(canvas);
+        }
+        return  backgroundBitmap ;
+    }
+
+    public static  Bitmap addBackgroundToBitmap(Bitmap background, Bitmap foreground) {
+        // 创建一个新的 Bitmap，宽高是背景图的宽高
+        Bitmap resultBitmap = Bitmap.createBitmap(background.getWidth(), background.getHeight(), background.getConfig());
+
+        // 创建 Canvas 来绘制图像
+        Canvas canvas = new Canvas(resultBitmap);
+
+        // 绘制背景图
+        canvas.drawBitmap(background, 0, 0, null);
+
+        // 如果需要，可以在背景上绘制前景图（例如一个头像或小图标）
+        float left = (background.getWidth() - foreground.getWidth()) / 2; // 居中显示前景图
+        float top = (background.getHeight() - foreground.getHeight()) / 2;
+        canvas.drawBitmap(foreground, left, top, null);
+
+        return resultBitmap;
+    }
+
+    public static Bitmap svgToBitmap(Context context, String svgFileName) {
+        try {
+            // 从 assets 文件夹读取 SVG 文件
+            InputStream inputStream = context.getAssets().open(svgFileName);
+            // 使用 XmlPullParser 解析 SVG
+            XmlPullParser parser = Xml.newPullParser();
+            parser.setInput(inputStream, "UTF-8");
+            // 解析 SVG 内容并转换为 Picture 对象
+            Picture picture = parseSvgToPicture(parser);
+            // 创建一个 Bitmap 对象
+            Bitmap bitmap = Bitmap.createBitmap(picture.getWidth(), picture.getHeight(), Bitmap.Config.ARGB_8888);
+            // 使用 Canvas 渲染 Picture 到 Bitmap
+            Canvas canvas = new Canvas(bitmap);
+            PictureDrawable pictureDrawable = new PictureDrawable(picture);
+            pictureDrawable.setBounds(0, 0, picture.getWidth(), picture.getHeight());
+            pictureDrawable.draw(canvas);
+            return bitmap;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private  static  Picture parseSvgToPicture(XmlPullParser parser) {
+        Picture picture = new Picture();
+        Canvas canvas = picture.beginRecording(500, 500);//new Canvas();  // 设置适当的尺寸
+        try {
+            int eventType = parser.getEventType();
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                if (eventType == XmlPullParser.START_TAG) {
+                    String tagName = parser.getName();
+                    if ("svg".equals(tagName)) {
+                        // 这里可以设置宽高等属性
+                    } else if ("path".equals(tagName)) {
+                        // 解析 path 元素，获取路径数据
+                        String pathData = parser.getAttributeValue(null, "d");
+                        if (pathData != null) {
+                            // 使用 Path 绘制路径（此处省略解析 path 的具体实现）
+                            canvas.drawPath(parsePathData(pathData), null);
+                        }
+                    }
+                }
+                eventType = parser.next();
+            }
+            picture.endRecording();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return picture;
+    }
+
+    // 简单的路径解析方法示例，你可以根据需要扩展
+    private static  Path parsePathData(String pathData) {
+        Path path = new Path();
+        // 这里需要使用一些解析库来解析 SVG 的 path 数据
+        // 或者你可以自行解析 d 属性的路径命令
+        return path;
+    }
+
+    // 从 assets 文件夹加载 SVG 文件
+    public static SVG loadSvgFromAssets(Context context,String fileName) {
+        try {
+            InputStream inputStream = context.getAssets().open(fileName);
+            return SVG.getFromInputStream(inputStream);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    // 将 SVG 转换为 Bitmap
+    public static Bitmap svgToBitmap(SVG svg) {
+        // 获取 SVG 的宽度和高度
+        int width = (int) svg.getDocumentWidth();
+        int height = (int) svg.getDocumentHeight();
+        // 创建一个 Bitmap
+        Bitmap bitmap = Bitmap.createBitmap(36, 36, Bitmap.Config.ARGB_8888);
+
+        // 使用 Canvas 将 SVG 渲染到 Bitmap 上
+        Canvas canvas = new Canvas(bitmap);
+        svg.renderToCanvas(canvas);
+
+        return bitmap;
+    }
+
 }
