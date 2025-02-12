@@ -13,4 +13,13 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
+    <style name="DialogActivityTheme" parent="Theme.MaterialComponents.DayNight.Dialog">
+        <item name="android:windowMinWidthMajor">1dp</item>
+        <item name="android:windowMinWidthMinor">1dp</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
 </resources>

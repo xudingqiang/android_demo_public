@@ -1,6 +1,8 @@
 package com.bella.android_demo_public.activity;
 
+import android.app.Instrumentation;
 import android.content.Context;
+import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.LauncherActivityInfo;
 import android.content.pm.LauncherApps;
@@ -24,8 +26,10 @@ import android.graphics.drawable.VectorDrawable;
 import android.os.Bundle;
 import android.os.UserHandle;
 import android.os.UserManager;
-import android.renderscript.ScriptGroup;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -45,28 +49,98 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class EventbusTestActivity extends AppCompatActivity {
     ImageView backgroundImageView;
     ImageView foregroundImageView;
     TextView textView;
+    Button textClick;
+
+
+    private void simulateKeyPress(int keyCode) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Instrumentation instrumentation = new Instrumentation();
+                instrumentation.sendKeyDownUpSync(keyCode);  // 模拟按下和松开
+            }
+        }).start();
+    }
+
+    public void sendKeyEvent(int keyCode) {
+        try {
+            Instrumentation instrumentation = new Instrumentation();
+            instrumentation.sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
+//            KeyCharacterMap.deviceHasKey()
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LogTool.i("EventbusTestActivity onCreate.........");
         setContentView(R.layout.activity_eventbus_test);
         textView = findViewById(R.id.textView);
+        textClick = findViewById(R.id.textClick);
         backgroundImageView = findViewById(R.id.backgroundImageView);
         foregroundImageView = findViewById(R.id.foregroundImageView);
 
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+        Map<String,Object> mp;
+
+//        Instrumentatio().sendKeyDownUpSync(KeyEvent.KEYCODE_MENU);
+
+        textClick.setOnClickListener(view -> {
+//            simulateKeyPress(KeyEvent.KEYCODE_BACK);
+//            simulateKeyPress(KeyEvent.KEYCODE_POWER);
+//            simulateKeyPress(KeyEvent.KEYCODE_WAKEUP);
+//            sendKeyEvent(KeyEvent.KEYCODE_POWER);
+//            sendKeyEvent(KeyEvent.KEYCODE_WAKEUP);
+//            sendKeyEvent(KeyEvent.KEYCODE_BACK);
+
+
+
+            try {
+                PackageManager pm = getPackageManager();
+                ApplicationInfo appInfo = pm.getApplicationInfo("com.android.oobe", 0);
+                if (appInfo != null) {
+                    String packageName = appInfo.packageName;
+                    LogTool.i("AppInfo", "Package name: " + packageName);
+
+                    try {
+                        pm.getPackageInfo("com.android.oobe", PackageManager.GET_ACTIVITIES);
+                        LogTool.d("SystemAppLauncher", "Package exists.");
+                    } catch (PackageManager.NameNotFoundException e) {
+                        LogTool.e("SystemAppLauncher", "Package not found: " + e.getMessage());
+                    }
+//                    Intent intent = new Intent();
+//                    ComponentName componentName = new ComponentName("com.android.oobe", "com.android.oobe.LanguageActivity");
+//                    intent.setComponent(componentName);
+//                    int flags = Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_ACTIVITY_SINGLE_TOP;
+//                    flags |= Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
+//                    flags |= Intent.FLAG_ACTIVITY_NEW_TASK;
+//                    intent.setFlags(flags);
+//                    startActivity(intent);
+                } else {
+                    LogTool.e("AppInfo", "ApplicationInfo is null for the given package name.");
+                }
+            } catch (PackageManager.NameNotFoundException e) {
+                LogTool.e("AppInfo", "Package not found: " + e.getMessage());
+            }
+        });
 
         textView.setOnClickListener(view -> {
             EventBus.getDefault().post(new MessageEvent("Hello from EventBus!"));
             String str = "com.ss.android.ugc.aweme_fde.desktop";
+            IntentFilter intentFilter;
             String md5 = Utils.getMD5(str);
             LogTool.i("str " + str.length() + " ,md5 " + md5);
             addPng();
+
         });
 
         Drawable drawable = ContextCompat.getDrawable(this, R.drawable.ic_launcher_background);
@@ -75,13 +149,13 @@ public class EventbusTestActivity extends AppCompatActivity {
         backgroundBitmap = vectorToBitmap(this, R.drawable.ic_launcher_background);
         Bitmap bitmap = Utils.getBitmapFromImageView(foregroundImageView);
 //        Bitmap bb = Utils.svgToBitmap(this,"phyfusion.svg");
-        SVG svg = Utils.loadSvgFromAssets(this,"phyfusion.svg");
-        if(svg !=null){
+        SVG svg = Utils.loadSvgFromAssets(this, "phyfusion.svg");
+        if (svg != null) {
             Bitmap bb = Utils.svgToBitmap(svg);
             overlayBitmaps(backgroundBitmap, bitmap, foregroundImageView);
             Bitmap b = overlayBitmaps(backgroundBitmap, bb);
             setBitmapToTextView(textView, b);
-        }else {
+        } else {
             LogTool.e("SVG is null .........");
         }
 
@@ -93,18 +167,18 @@ public class EventbusTestActivity extends AppCompatActivity {
 
     private void addPng() {
         try {
-            String packageName =  "com.tencent.android.qqdownloader";//getPackageName();
+            String packageName = "com.tencent.android.qqdownloader";//getPackageName();
             PackageManager packageManager = getPackageManager();
-            LogTool.i("packageName........1..... "+packageName);
+            LogTool.i("packageName........1..... " + packageName);
             ApplicationInfo appInfo = packageManager.getApplicationInfo(packageName, 0);
-            LogTool.i("packageName.......2...... "+packageName);
+            LogTool.i("packageName.......2...... " + packageName);
             Drawable icon = packageManager.getApplicationIcon(appInfo);
-            LogTool.i("packageName........3..... "+packageName);
+            LogTool.i("packageName........3..... " + packageName);
             String appName = packageManager.getApplicationLabel(appInfo).toString();
             String md5 = Utils.getMD5(appInfo.packageName);
 
             String path = "/mnt/sdcard/Pictures/WeiXin/" + md5 + ".png";
-            LogTool.i( "createAllAndroidIconToLinux md5 : " + md5 + ",path: " + path + ",packageName: " + packageName);
+            LogTool.i("createAllAndroidIconToLinux md5 : " + md5 + ",path: " + path + ",packageName: " + packageName);
             File file = new File(path);
             if (!file.exists() && !path.contains(" ")) {
                 drawableToPng(this, icon, path);
@@ -175,30 +249,30 @@ public class EventbusTestActivity extends AppCompatActivity {
 //        Bitmap bitmapT = ((BitmapDrawable) drawable).getBitmap();
         Bitmap bitmapT = BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon_xserver);
 
-        if(drawable instanceof BitmapDrawable){
-            Log.i("bella","createAllAndroidIconToLinux drawable 1111");
-        }else if(drawable instanceof VectorDrawable){
-            Log.i("bella","createAllAndroidIconToLinux drawable 2222");
-        }else if(drawable instanceof StateListDrawable){
-            Log.i("bella","createAllAndroidIconToLinux drawable 3333");
-        }else if(drawable instanceof LayerDrawable){
-            Log.i("bella","createAllAndroidIconToLinux drawable 4444");
-        }else if(drawable instanceof LevelListDrawable){
-            Log.i("bella","createAllAndroidIconToLinux drawable 5555");
-        }else if(drawable instanceof ShapeDrawable){
-            Log.i("bella","createAllAndroidIconToLinux drawable 6666");
-        }else if(drawable instanceof GradientDrawable){
-            Log.i("bella","createAllAndroidIconToLinux drawable 7777");
-        }else if(drawable instanceof InsetDrawable){
-            Log.i("bella","createAllAndroidIconToLinux drawable 8888");
-        }else if(drawable instanceof RippleDrawable){
-            Log.i("bella","createAllAndroidIconToLinux drawable 9999");
-        }else if(drawable instanceof ColorDrawable){
-            Log.i("bella","createAllAndroidIconToLinux drawable aaaa");
-        }else if(drawable instanceof AdaptiveIconDrawable){
-            Log.i("bella","createAllAndroidIconToLinux drawable bbbb");
-        }else{
-            Log.i("bella","createAllAndroidIconToLinux drawable cccc");
+        if (drawable instanceof BitmapDrawable) {
+            Log.i("bella", "createAllAndroidIconToLinux drawable 1111");
+        } else if (drawable instanceof VectorDrawable) {
+            Log.i("bella", "createAllAndroidIconToLinux drawable 2222");
+        } else if (drawable instanceof StateListDrawable) {
+            Log.i("bella", "createAllAndroidIconToLinux drawable 3333");
+        } else if (drawable instanceof LayerDrawable) {
+            Log.i("bella", "createAllAndroidIconToLinux drawable 4444");
+        } else if (drawable instanceof LevelListDrawable) {
+            Log.i("bella", "createAllAndroidIconToLinux drawable 5555");
+        } else if (drawable instanceof ShapeDrawable) {
+            Log.i("bella", "createAllAndroidIconToLinux drawable 6666");
+        } else if (drawable instanceof GradientDrawable) {
+            Log.i("bella", "createAllAndroidIconToLinux drawable 7777");
+        } else if (drawable instanceof InsetDrawable) {
+            Log.i("bella", "createAllAndroidIconToLinux drawable 8888");
+        } else if (drawable instanceof RippleDrawable) {
+            Log.i("bella", "createAllAndroidIconToLinux drawable 9999");
+        } else if (drawable instanceof ColorDrawable) {
+            Log.i("bella", "createAllAndroidIconToLinux drawable aaaa");
+        } else if (drawable instanceof AdaptiveIconDrawable) {
+            Log.i("bella", "createAllAndroidIconToLinux drawable bbbb");
+        } else {
+            Log.i("bella", "createAllAndroidIconToLinux drawable cccc");
         }
         if (drawable instanceof AdaptiveIconDrawable) {
             AdaptiveIconDrawable adaptiveIconDrawable = (AdaptiveIconDrawable) drawable;
@@ -229,7 +303,7 @@ public class EventbusTestActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-        }else {
+        } else {
             LogTool.e("drawable is not AdaptiveIconDrawable");
         }
 

@@ -9,6 +9,7 @@
 
 
     <TextView
+        android:id="@+id/txtContent"
         android:text="NetTest"
         android:textColor="#00ff00"
         android:layout_width="wrap_content"

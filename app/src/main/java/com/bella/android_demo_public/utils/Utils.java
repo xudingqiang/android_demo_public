@@ -1,8 +1,13 @@
 package com.bella.android_demo_public.utils;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -15,11 +20,13 @@ import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PictureDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.util.Xml;
 import android.widget.ImageView;
+
+import androidx.core.content.FileProvider;
 
 import com.bella.android_demo_public.BellaDataBase;
 import com.bella.android_demo_public.R;
@@ -33,6 +40,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
 
+import java.io.File;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
@@ -62,6 +70,8 @@ public class Utils {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
+
+
 
     /**
      *
@@ -346,7 +356,7 @@ public class Utils {
         Drawable drawable = imageView.getDrawable();
 
 
-        Bitmap backgroundBitmap ;
+        Bitmap backgroundBitmap;
         if (drawable instanceof BitmapDrawable) {
             backgroundBitmap = ((BitmapDrawable) drawable).getBitmap();
         } else {
@@ -356,10 +366,10 @@ public class Utils {
             drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
             drawable.draw(canvas);
         }
-        return  backgroundBitmap ;
+        return backgroundBitmap;
     }
 
-    public static  Bitmap addBackgroundToBitmap(Bitmap background, Bitmap foreground) {
+    public static Bitmap addBackgroundToBitmap(Bitmap background, Bitmap foreground) {
         // 创建一个新的 Bitmap，宽高是背景图的宽高
         Bitmap resultBitmap = Bitmap.createBitmap(background.getWidth(), background.getHeight(), background.getConfig());
 
@@ -400,7 +410,7 @@ public class Utils {
         return null;
     }
 
-    private  static  Picture parseSvgToPicture(XmlPullParser parser) {
+    private static Picture parseSvgToPicture(XmlPullParser parser) {
         Picture picture = new Picture();
         Canvas canvas = picture.beginRecording(500, 500);//new Canvas();  // 设置适当的尺寸
         try {
@@ -429,7 +439,7 @@ public class Utils {
     }
 
     // 简单的路径解析方法示例，你可以根据需要扩展
-    private static  Path parsePathData(String pathData) {
+    private static Path parsePathData(String pathData) {
         Path path = new Path();
         // 这里需要使用一些解析库来解析 SVG 的 path 数据
         // 或者你可以自行解析 d 属性的路径命令
@@ -437,7 +447,7 @@ public class Utils {
     }
 
     // 从 assets 文件夹加载 SVG 文件
-    public static SVG loadSvgFromAssets(Context context,String fileName) {
+    public static SVG loadSvgFromAssets(Context context, String fileName) {
         try {
             InputStream inputStream = context.getAssets().open(fileName);
             return SVG.getFromInputStream(inputStream);
@@ -460,6 +470,99 @@ public class Utils {
         svg.renderToCanvas(canvas);
 
         return bitmap;
+    }
+
+
+    public static Map<String, List<Map<String, String>>> getAllIntentFilterData(Context context) {
+        Map<String, List<Map<String, String>>> result = new HashMap<>();
+        PackageManager packageManager = context.getPackageManager();
+
+        try {
+            // 获取所有已安装的应用包信息
+            List<PackageInfo> packageInfoList = packageManager.getInstalledPackages(PackageManager.GET_ACTIVITIES | PackageManager.GET_INTENT_FILTERS);
+
+            for (PackageInfo packageInfo : packageInfoList) {
+                if (packageInfo.activities != null) {
+                    for (ActivityInfo activityInfo : packageInfo.activities) {
+                        Intent intent = new Intent();
+                        intent.setClassName(activityInfo.packageName, activityInfo.name);
+
+                        // 获取 Activity 的 Intent-Filters
+                        List<ResolveInfo> resolveInfoList = packageManager.queryIntentActivities(intent, PackageManager.GET_RESOLVED_FILTER);
+                        List<Map<String, String>> dataList = new ArrayList<>();
+
+                        for (ResolveInfo resolveInfo : resolveInfoList) {
+                            IntentFilter filter = resolveInfo.filter;
+                            if (filter != null && filter.countDataSchemes() > 0) {
+                                for (int i = 0; i < filter.countDataSchemes(); i++) {
+                                    Map<String, String> dataMap = new HashMap<>();
+                                    String scheme = filter.getDataScheme(i);
+                                    dataMap.put("scheme", scheme);
+
+                                    if (filter.countDataAuthorities() > 0) {
+                                        for (int j = 0; j < filter.countDataAuthorities(); j++) {
+                                            IntentFilter.AuthorityEntry authority = filter.getDataAuthority(j);
+                                            dataMap.put("host", authority.getHost());
+//                                            dataMap.put("port", authority.getPort() != null ? authority.getPort() : "default");
+                                        }
+                                    }
+
+                                    if (filter.countDataPaths() > 0) {
+                                        for (int k = 0; k < filter.countDataPaths(); k++) {
+                                            dataMap.put("path", filter.getDataPath(k).getPath());
+                                        }
+                                    }
+                                    dataList.add(dataMap);
+                                }
+                            }
+                        }
+                        if (!dataList.isEmpty()) {
+                            result.put(activityInfo.name, dataList);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+
+    public static boolean containsChinese(String str) {
+        if (str == null || str.isEmpty()) {
+            return false;
+        }
+        // 正则表达式匹配中文字符
+        String regex = "[\\u4e00-\\u9fa5]";
+        return str.matches(".*" + regex + ".*");
+    }
+
+    public static boolean installApk(Context context, String filePath) {
+        File file = new File(filePath);
+        if (!file.exists() || !file.isFile() || file.length() <= 0) {
+            return false;
+        }
+//        Intent i = new Intent(Intent.ACTION_VIEW);
+//        i.setDataAndType(Uri.parse("file://" + filePath), "application/vnd.android.package-archive");
+//        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        context.startActivity(i);
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri data;
+        // 判断版本大于等于7.0
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            // "net.csdn.blog.ruancoder.fileprovider"即是在清单文件中配置的authorities
+            data = FileProvider.getUriForFile(context, "com.communist.book.fileprovider", file);
+            // 给目标应用一个临时授权
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        } else {
+            data = Uri.fromFile(file);
+        }
+        intent.setDataAndType(data, "application/vnd.android.package-archive");
+        context.startActivity(intent);
+        return true;
     }
 
 }

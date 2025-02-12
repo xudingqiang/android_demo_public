@@ -6,4 +6,5 @@
     <string name="gps_country">Country</string>
     <string name="gps_province">Province</string>
     <string name="gps_city">City</string>
+    <string name="fde_desc">FDE(推荐使用)</string>
 </resources>

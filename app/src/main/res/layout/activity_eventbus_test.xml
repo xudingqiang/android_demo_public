@@ -9,10 +9,17 @@
     android:background="#f8f8f8"
     tools:context=".activity.EventbusTestActivity">
 
+    <Button
+        android:id="@+id/textClick"
+        android:text="模拟按键"
+        android:layout_margin="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <TextView
         android:id="@+id/textView"
         android:text="发送消息"
+        android:layout_margin="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 

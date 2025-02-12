@@ -2,6 +2,7 @@ package com.bella.android_demo_public.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.net.LocalSocket;
@@ -67,6 +68,7 @@ public class GpsSetActivity extends AppCompatActivity {
     int indexProvince = 0;
     int indexCity = 0;
     boolean isChineseLanguage;
+
 
     SimpleAdapter adapterCountry;
     SimpleAdapter adapterProvince;
@@ -177,6 +179,8 @@ public class GpsSetActivity extends AppCompatActivity {
                 initPopWindow(txtCity, adapterCity);
             }
         });
+
+//        PendingIntent.getBroadcast()
     }
 
 
@@ -214,6 +218,9 @@ public class GpsSetActivity extends AppCompatActivity {
     }
 
     private void initData() {
+
+
+
         listCountrys = new ArrayList<>();
         listProvinces = new ArrayList<>();
         listCitys = new ArrayList<>();

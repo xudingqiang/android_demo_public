@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/popup_bg">
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/layoutProgressBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:orientation="horizontal">
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="10dp"
+                android:layout_weight="1"
+                android:max="100"
+                android:progress="0"
+                android:progressDrawable="@drawable/progressbar_bg" />
+
+            <TextView
+                android:id="@+id/txtProgress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0%"
+                android:paddingLeft="6dp"
+                android:textColor="#FF313131"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txtDesc"
+            android:text="您的版本太低"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_marginTop="32dp"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="15dp"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginVertical="16dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtCancel"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="#000"
+                android:text="取消"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/txtInstall"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="升级"
+                android:textColor="#DDD"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
