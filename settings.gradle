@@ -3,6 +3,7 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
+        maven { url 'https://maven.aliyun.com/repository/central' }
     }
 }
 dependencyResolutionManagement {
@@ -10,7 +11,14 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://maven.aliyun.com/repository/central' }
+
+        flatDir {
+            dirs 'libs' // 指定 libs 目录为本地仓库
+        }
     }
+
 }
 rootProject.name = "android_demo_public"
 include ':app','EventBus'
+include ':android-pdf-viewer'

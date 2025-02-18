@@ -42,6 +42,7 @@ import com.bella.android_demo_public.activity.EventbusTestActivity;
 import com.bella.android_demo_public.activity.GaussianBlurActivity;
 import com.bella.android_demo_public.activity.LibpagDemoActivity;
 import com.bella.android_demo_public.activity.NetTestActivity;
+import com.bella.android_demo_public.activity.PdfTestActivity;
 import com.bella.android_demo_public.activity.RecyclerviewSelectionTestActivity;
 import com.bella.android_demo_public.activity.RoomTestActivity;
 import com.bella.android_demo_public.activity.TestKotlinActivity;
@@ -331,6 +332,8 @@ public class MainActivity extends AppCompatActivity {
             intent.setPackage("com.android.systemui");
             sendBroadcast(intent);
 
+
+
 //            Intent intent = new Intent();
 ////            ComponentName componentName2 = new ComponentName("com.fde.fde_linux_app_launcher", "com.fde.fde_linux_app_launcher.MainActivity");
 //            ComponentName componentName2 = new ComponentName("com.android.documentsui", "com.android.documentsui.ui.StartActivity");
@@ -536,6 +539,13 @@ public class MainActivity extends AppCompatActivity {
         test11.setText("高斯模糊测试");
         test11.setOnClickListener(v -> {
             startActivity(new Intent(context, GaussianBlurActivity.class));
+
+        });
+
+        TextView test12 = findViewById(R.id.test12);
+        test12.setText("pfd测试");
+        test12.setOnClickListener(v -> {
+            startActivity(new Intent(context, PdfTestActivity.class));
 
         });
 

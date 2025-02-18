@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
@@ -60,7 +59,7 @@ class TestKotlinActivity : AppCompatActivity() {
 
             // Request the shortcut to be pinned
             ShortcutManagerCompat.requestPinShortcut(context, shortcutInfo, null)
-        }else{
+        } else {
             LogTool.e("isRequestPinShortcutSupported error.........")
         }
     }

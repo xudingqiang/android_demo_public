@@ -3,4 +3,8 @@ plugins {
     id 'com.android.application' version '8.5.0' apply false
     id 'com.android.library' version '8.5.0' apply false
     id 'org.jetbrains.kotlin.android' version '2.0.21' apply false
+//    id 'com.jfrog.bintray' version '1.8.4' apply false
+//    id 'com.github.dcendents' version '2.1'
+//    id 'com.jfrog.bintray.gradle:gradle-bintray-plugin' version '1.8.4' apply false
+//    id 'com.github.dcendents:android-maven-gradle-plugin' version '2.1' apply false
 }

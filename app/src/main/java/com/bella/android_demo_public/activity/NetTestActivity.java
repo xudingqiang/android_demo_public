@@ -45,7 +45,8 @@ public class NetTestActivity extends AppCompatActivity {
             OkHttpClient client = new OkHttpClient();
 
             Request request = new Request.Builder()
-                    .url("http://127.0.0.1:18080/api/v1/apps?page=1&page_size=100")
+//                    .url("http://127.0.0.1:18080/api/v1/apps?page=1&page_size=100")
+                    .url( "https://gitee.com/openfde/provision/releases/download/1.3.2/apps.json")
 //                        .url("http://127.0.0.1:18080/api/v1/power/off")
                     .build();
 
@@ -56,20 +57,21 @@ public class NetTestActivity extends AppCompatActivity {
 
                 // 处理响应
                 String responseString = response.body().string();
-                Gson gson = new Gson();
-                Type type = new TypeToken<Map<String, Object>>() {
-                }.getType();
-                Map<String, Object> myObject = gson.fromJson(responseString, type);
-                Map<String, Object> dataMap = (Map<String, Object>) myObject.get("data");
-                List<Map<String, Object>> list = (List<Map<String, Object>>) dataMap.get("data");
-
-                if (list != null) {
-                    for (int i = 0; i < list.size(); i++) {
-                        LogTool.i("list IconPath  " + list.get(i).get("IconPath") + " , Path " + list.get(i).get("Path") + " , Name " + list.get(i).get("Name"));
-                    }
-                }
-
-                Thread.sleep(5000); // 模拟耗时操作
+                LogTool.i("Thread responseString: " + responseString);
+//                Gson gson = new Gson();
+//                Type type = new TypeToken<Map<String, Object>>() {
+//                }.getType();
+//                Map<String, Object> myObject = gson.fromJson(responseString, type);
+//                Map<String, Object> dataMap = (Map<String, Object>) myObject.get("data");
+//                List<Map<String, Object>> list = (List<Map<String, Object>>) dataMap.get("data");
+//
+//                if (list != null) {
+//                    for (int i = 0; i < list.size(); i++) {
+//                        LogTool.i("list IconPath  " + list.get(i).get("IconPath") + " , Path " + list.get(i).get("Path") + " , Name " + list.get(i).get("Name"));
+//                    }
+//                }
+//
+//                Thread.sleep(5000); // 模拟耗时操作
             } catch (Exception e) {
                 Thread.currentThread().interrupt();
             }
