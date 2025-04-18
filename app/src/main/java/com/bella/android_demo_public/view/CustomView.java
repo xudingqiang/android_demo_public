@@ -17,6 +17,7 @@ package com.bella.android_demo_public.view;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -43,5 +44,15 @@ public class CustomView extends View {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         Log.d(TAG, "onDetachedFromWindow");
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_MOVE:
+
+                break;
+        }
+        return super.onTouchEvent(event);
     }
 }

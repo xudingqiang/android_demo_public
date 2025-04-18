@@ -15,6 +15,7 @@ import com.bella.android_demo_public.utils.LogTool
 class TestKotlinActivity : AppCompatActivity() {
     private var windowContentView: View? = null
     private var txtTestKotlin: TextView? = null;
+    var context :Context? = null ;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +32,8 @@ class TestKotlinActivity : AppCompatActivity() {
 //        }else{
 //            LogTool.i("0000000000")
 //        }
+
+
 
         txtTestKotlin?.setOnClickListener {
             createPinnedShortcut(this);

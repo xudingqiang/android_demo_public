@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.PixelFormat;
 import android.graphics.RadialGradient;
 import android.graphics.drawable.AdaptiveIconDrawable;
 import android.graphics.drawable.BitmapDrawable;
@@ -38,22 +39,26 @@ import androidx.core.content.ContextCompat;
 
 import com.bella.android_demo_public.R;
 import com.bella.android_demo_public.bean.MessageEvent;
+import com.bella.android_demo_public.svg.SVG;
 import com.bella.android_demo_public.utils.LogTool;
+import com.bella.android_demo_public.utils.SimpleIniParser;
 import com.bella.android_demo_public.utils.Utils;
-import com.caverock.androidsvg.SVG;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class EventbusTestActivity extends AppCompatActivity {
     ImageView backgroundImageView;
     ImageView foregroundImageView;
+    ImageView imgApp;
     TextView textView;
     Button textClick;
 
@@ -87,6 +92,7 @@ public class EventbusTestActivity extends AppCompatActivity {
         textClick = findViewById(R.id.textClick);
         backgroundImageView = findViewById(R.id.backgroundImageView);
         foregroundImageView = findViewById(R.id.foregroundImageView);
+        imgApp = findViewById(R.id.imgApp);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
@@ -147,22 +153,54 @@ public class EventbusTestActivity extends AppCompatActivity {
         Bitmap backgroundBitmap;
 
         backgroundBitmap = vectorToBitmap(this, R.drawable.ic_launcher_background);
-        Bitmap bitmap = Utils.getBitmapFromImageView(foregroundImageView);
-//        Bitmap bb = Utils.svgToBitmap(this,"phyfusion.svg");
-        SVG svg = Utils.loadSvgFromAssets(this, "phyfusion.svg");
-        if (svg != null) {
-            Bitmap bb = Utils.svgToBitmap(svg);
-            overlayBitmaps(backgroundBitmap, bitmap, foregroundImageView);
-            Bitmap b = overlayBitmaps(backgroundBitmap, bb);
-            setBitmapToTextView(textView, b);
-        } else {
-            LogTool.e("SVG is null .........");
-        }
+        Bitmap bb = vectorToBitmap(this, R.mipmap.flag_linux);
+        Bitmap b = overlayBitmaps(backgroundBitmap, bb);
+        setBitmapToTextView(textView, b);
+
+//        backgroundBitmap = vectorToBitmap(this, R.drawable.ic_launcher_background);
+//        Bitmap bitmap = Utils.getBitmapFromImageView(foregroundImageView);
+////        Bitmap bb = Utils.svgToBitmap(this,"phyfusion.svg");
+//        SVG svg = Utils.loadSvgFromAssets(this, "terminal.svg");
+//        if (svg != null) {
+//            Bitmap bb = Utils.svgToBitmap(svg);
+//            overlayBitmaps(backgroundBitmap, bitmap, foregroundImageView);
+//            int width = 36;
+//            try {
+//                width = (int) svg.getDocumentWidth();
+//                width = (96 - width)/2;
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            Bitmap b = overlayBitmaps(backgroundBitmap, bb,width);
+//            setBitmapToTextView(textView, b);
+//        } else {
+//            LogTool.e("SVG is null .........");
+//        }
 
         RadialGradient radialGradient;
 
 
 //        textView.setBackground(getResources().getDrawable(R.drawable.ic_launcher_background));
+
+        try (InputStream is = getAssets().open("deepin-terminal.desktop")) {
+            Map<String, Map<String, String>> config = new SimpleIniParser().parse(is);
+            Map<String,String> mmm = config.get("Desktop Entry");
+            String str="";
+//            String value = config.get("Desktop Entry").get("Name[zh_CN]");
+            for (Map.Entry<String, String> entry : mmm.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+                LogTool.w("Key: " + key + ", Value: " + value);
+                str += "Key: " + key + ", Value: " + value+"\n";
+                textView.setText(str);
+            }
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        getAllApp(this);
     }
 
     private void addPng() {
@@ -239,16 +277,18 @@ public class EventbusTestActivity extends AppCompatActivity {
             String packageName = li.getApplicationInfo().packageName;
             // Log.i("bella","getAllApp list  li:  getName: " + li.getName() +"  ,appName: "+appName + ",packageName "+packageName + " ,name : "+li.getApplicationInfo().name);
             listApps.add(li.getApplicationInfo());
+            drawableToPng(this,icon,"/mnt/sdcard/Pictures/"+packageName+".png");
+
+
         }
         return listApps;
     }
 
     public void drawableToPng(Context context, Drawable drawable, String filePath) {
-//        Bitmap bitmapT = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
-//                drawable.getIntrinsicHeight(),  drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565);
-//        Bitmap bitmapT = ((BitmapDrawable) drawable).getBitmap();
-        Bitmap bitmapT = BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon_xserver);
+        Bitmap bitmapT = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
+                drawable.getIntrinsicHeight(), drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565);
 
+        Bitmap bitmap;
         if (drawable instanceof BitmapDrawable) {
             Log.i("bella", "createAllAndroidIconToLinux drawable 1111");
         } else if (drawable instanceof VectorDrawable) {
@@ -277,37 +317,48 @@ public class EventbusTestActivity extends AppCompatActivity {
         if (drawable instanceof AdaptiveIconDrawable) {
             AdaptiveIconDrawable adaptiveIconDrawable = (AdaptiveIconDrawable) drawable;
             bitmapT = adaptiveIconToBitmap(adaptiveIconDrawable);
-            bitmapT = scaleBitmap(bitmapT, 24, 24);
-            Bitmap b2 = vectorToBitmap(context, R.mipmap.bg_android);
-            b2 = scaleBitmap(b2, 96, 96);
-            Bitmap bitmap = overlayBitmaps(b2, bitmapT);
-
-            Canvas canvas = new Canvas(bitmapT);
-            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-            drawable.draw(canvas);
-            // 保存Bitmap到PNG文件
-            File file = new File(filePath);
-            FileOutputStream outputStream = null;
-            try {
-                outputStream = new FileOutputStream(file);
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    if (outputStream != null) {
-                        outputStream.flush();
-                        outputStream.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            bitmapT = scaleBitmap(bitmapT, 64, 64);
+            Bitmap b2 = vectorToBitmap(context, R.mipmap.flag_android);
+            b2 = scaleBitmap(b2, 36, 36);
+            bitmap = overlayBitmaps(bitmapT,b2);
         } else {
-            LogTool.e("drawable is not AdaptiveIconDrawable");
+            if (drawable instanceof BitmapDrawable) {
+                BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+                bitmapT = bitmapDrawable.getBitmap();
+                bitmapT = scaleBitmap(bitmapT, 64, 64);
+                Bitmap b2 = vectorToBitmap(context, R.mipmap.flag_android);
+                b2 = scaleBitmap(b2, 36, 36);
+                bitmap = overlayBitmaps(bitmapT,b2);
+            } else {
+                bitmap = bitmapT;
+            }
         }
+        Bitmap mutableBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+        Canvas canvas = new Canvas(mutableBitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+        // 保存Bitmap到PNG文件
+        File file = new File(filePath);
+        FileOutputStream outputStream = null;
 
-
+        try {
+            if(!file.exists()){
+                file.createNewFile();
+            }
+            outputStream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (outputStream != null) {
+                    outputStream.flush();
+                    outputStream.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public Bitmap adaptiveIconToBitmap(AdaptiveIconDrawable adaptiveIconDrawable) {
@@ -369,14 +420,15 @@ public class EventbusTestActivity extends AppCompatActivity {
         imageView.setImageBitmap(overlayBitmap);
     }
 
-    public Bitmap overlayBitmaps(Bitmap bitmap1, Bitmap bitmap2) {
+    public Bitmap overlayBitmaps(Bitmap bitmap1, Bitmap bitmap2 ) {
         // 创建一个与第一个 Bitmap 相同大小的空白 Bitmap
-        Bitmap overlayBitmap = Bitmap.createBitmap(bitmap1.getWidth(), bitmap1.getHeight(), bitmap1.getConfig());
+//        Bitmap overlayBitmap = Bitmap.createBitmap(bitmap1.getWidth(), bitmap1.getHeight(), bitmap1.getConfig());
+        Bitmap overlayBitmap = Bitmap.createBitmap(bitmap1.getWidth()+bitmap2.getWidth(), bitmap1.getHeight()+bitmap2.getHeight(), bitmap1.getConfig());
         // 创建 Canvas，将第一个 Bitmap 作为底图
         Canvas canvas = new Canvas(overlayBitmap);
-        canvas.drawBitmap(bitmap1, 2, 2, null);  // 将 bitmap1 绘制到 canvas 上
+        canvas.drawBitmap(bitmap1, 0, 0, null);  // 将 bitmap1 绘制到 canvas 上
         // 将第二个 Bitmap 绘制到 Canvas 上，叠加在第一个 Bitmap 上
-        canvas.drawBitmap(bitmap2, 30, 36, null);  // 将 bitmap2 绘制到 canvas 上
+        canvas.drawBitmap(bitmap2, 48,36, null);  // 将 bitmap2 绘制到 canvas 上
         // 将叠加后的 Bitmap 设置到 ImageView
         return overlayBitmap;
     }

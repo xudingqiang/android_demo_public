@@ -4,6 +4,7 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
         maven { url 'https://maven.aliyun.com/repository/central' }
+        maven { url "https://jitpack.io" }
     }
 }
 dependencyResolutionManagement {
@@ -12,7 +13,7 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven { url 'https://maven.aliyun.com/repository/central' }
-
+        maven { url "https://jitpack.io" }
         flatDir {
             dirs 'libs' // 指定 libs 目录为本地仓库
         }

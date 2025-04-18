@@ -1,5 +1,7 @@
 package com.bella.android_demo_public.activity;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
@@ -20,10 +22,12 @@ import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.github.barteksc.pdfviewer.listener.OnPageErrorListener;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 
+import java.util.List;
+
 public class PdfTestActivity extends AppCompatActivity implements OnPageChangeListener, OnLoadCompleteListener,
         OnPageErrorListener {
     private static final int REQUEST_CODE = 1;
-//    private PdfiumCore pdfiumCore;
+    //    private PdfiumCore pdfiumCore;
 //    private PdfDocument pdfDocument;
     private int currentPage = 0;
     private ImageView imageView;
@@ -63,19 +67,18 @@ public class PdfTestActivity extends AppCompatActivity implements OnPageChangeLi
                 .load();
 
 
-
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        LogTool.i("onRequestPermissionsResult "+requestCode);
+        LogTool.i("onRequestPermissionsResult " + requestCode);
         if (requestCode == REQUEST_CODE && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 //            loadPDF("/mnt/sdcard/aa.pdf");
         }
     }
 
-//    private void loadPDF(String filePath) {
+    //    private void loadPDF(String filePath) {
 //        try {
 //            File file = new File(filePath);
 //            if(!file.exists()){
@@ -109,17 +112,34 @@ public class PdfTestActivity extends AppCompatActivity implements OnPageChangeLi
     private void nextPage() {
 //        if (currentPage < pdfiumCore.getPageCount(pdfDocument) - 1) {
 //            renderPage(currentPage + 1);
-            currentPage++;
-            pdfView.jumpTo(currentPage);
+        currentPage++;
+        pdfView.jumpTo(currentPage);
 //        }
     }
 
     private void previousPage() {
-        if (currentPage > 0) {
-//            renderPage(currentPage - 1);
-            currentPage--;
-            pdfView.jumpTo(currentPage);
+//        if (currentPage > 0) {
+////            renderPage(currentPage - 1);
+//            currentPage--;
+//            pdfView.jumpTo(currentPage);
+//        }
+
+        ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.AppTask> tasks = activityManager.getAppTasks();
+//        tasks.get(0).finishAndRemoveTask();
+
+        int curTaskId = tasks.get(0).getTaskInfo().id;
+        for (ActivityManager.AppTask task : tasks) {
+            // 获取任务信息
+            ActivityManager.RecentTaskInfo info = task.getTaskInfo();
+            LogTool.w( "info id " + info.id + " curTastId " + curTaskId + ",tasks-size " + tasks.size() + ", ");
+//            if (info.id == curTaskId) { // 假设你有方法获取当前任务 ID
+//                task.finishAndRemoveTask(); // 关闭任务
+////                    break;
+//            }
+
         }
+        finish();
     }
 //
 //    @Override

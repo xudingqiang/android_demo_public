@@ -7,4 +7,78 @@
     <string name="gps_province">Province</string>
     <string name="gps_city">City</string>
     <string name="fde_desc">FDE(推荐使用)</string>
+
+    <string name="app_open_drop_target_label">"打开"</string>
+    <string name="app_open_type">"打开方式"</string>
+    <string name="remove_drop_target">"移除"</string>
+    <string name="copy_drop_target">"复制"</string>
+    <string name="cut_drop_target">"剪切"</string>
+    <string name="delete_drop_target">"删除"</string>
+    <string name="rename_drop_target">"重命名"</string>
+
+    <string name="desktop_icon_rearray">"自动排列"</string>
+    <string name="desktop_new_document">"新建文档"</string>
+    <string name="desktop_new_directory">"新建文件夹"</string>
+    <string name="desktop_new">"新建"</string>
+    <string name="desktop_new_paste">"粘贴"</string>
+    <string name="desktop_tips">"提示"</string>
+    <string name="desktop_delete_tips">"是否删除？"</string>
+    <string name="desktop_delete">"删除"</string>
+    <string name="desktop_cancel">"取消"</string>
+    <string name="desktop_ok">"确定"</string>
+    <string name="desktop_rename">"重命名"</string>
+
+    <string name="change_wallpaper">"更换壁纸"</string>
+    <string name="display_properties">"显示属性"</string>
+    <string name="display_settings">"显示设置"</string>
+    <string name="system_theme">"系统主题"</string>
+    <string name="view_type">"视图类型"</string>
+    <string name="sort">"排序方式"</string>
+    <string name="open_the_terminal">"打开终端"</string>
+    <string name="theme_dark">"深色"</string>
+    <string name="theme_light">"浅色"</string>
+    <string name="sort_by_name">"名称"</string>
+    <string name="sort_by_type">"类型"</string>
+    <string name="refresh">"刷新"</string>
+
+    <string name="fde_compatible_set">兼容性设置</string>
+    <string name="fde_compatible_summary">应用兼容性设置</string>
+    <string name="fde_input_hint">请输入值</string>
+    <string name="fde_input_appname_hint">请输入应用名称</string>
+    <string name="fde_app_name_title">应用名称</string>
+    <string name="fde_data_value">值</string>
+    <string name="fde_switch">请选择</string>
+    <string name="fde_tips">提示</string>
+    <string name="fde_clean_tips">是否清空所有配置?</string>
+    <string name="fde_reset_tips">是否恢复默认配置?</string>
+    <string name="fde_sync_config_from_gitee">是否从服务器同步最新配置?</string>
+    <string name="set_gps_info">设置GPS信息</string>
+    <string name="set_success">设置成功</string>
+    <string name="fde_country">国家</string>
+    <string name="fde_province">省份</string>
+    <string name="fde_city">城市</string>
+
+    <!-- 定义字符串数组 -->
+    <string-array name="theme_options">
+        <item>深色模式</item>
+        <item>浅色模式</item>
+    </string-array>
+
+    <string-array name="sort_options">
+        <item>名称</item>
+        <item>类型</item>
+        <item>时间</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="spinner_items">
+        <item>Option 1</item>
+        <item>Option 2</item>
+        <item>Option 3</item>
+    </string-array>
+
+    <string name="fde_btn_cancel">取消</string>
+    <string name="fde_btn_confirm">确定</string>
+
 </resources>

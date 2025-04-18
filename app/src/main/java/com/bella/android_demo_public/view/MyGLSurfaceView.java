@@ -12,5 +12,8 @@ public class MyGLSurfaceView extends GLSurfaceView {
         setEGLContextClientVersion(2);
         renderer = new MyGLRenderer(context);
         setRenderer(renderer);
+        if(getTag() !=null && "drag".equals(getTag())){
+
+        }
     }
 }

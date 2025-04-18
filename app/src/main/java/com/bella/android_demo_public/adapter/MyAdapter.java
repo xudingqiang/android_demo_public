@@ -38,6 +38,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         String item = items.get(position);
 //        holder.textView.setText(item);
 
+
         holder.bind(item, selectionTracker.isSelected(Long.valueOf(String.valueOf(position))));
 
 //        // 更新 UI 状态

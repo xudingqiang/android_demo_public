@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="textStyle" >
+
+    <style name="textStyle">
         <item name="android:layout_marginHorizontal">16dp</item>
         <item name="android:layout_marginTop">16dp</item>
         <item name="android:padding">8dp</item>
@@ -21,5 +22,65 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:backgroundDimEnabled">false</item>
     </style>
+
+    <style name="CalendarTheme.WithActionBarWallpaper" parent="CalendarTheme.WithoutActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowShowWallpaper">true</item>
+    </style>
+
+    <style name="PopupMenuStyle" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:popupBackground">@drawable/bg_desktop_menu</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:itemBackground">@color/black</item>
+    </style>
+
+    <style name="MyPopupMenu" parent="Widget.AppCompat.PopupMenu">
+        <!-- 背景 -->
+        <item name="android:popupBackground">@drawable/bg_desktop_menu</item>
+        <!-- 文本颜色 -->
+        <item name="android:textColor">#FF0000</item>
+        <!-- 文本大小 -->
+        <item name="android:textSize">10sp</item>
+
+        <!-- 垂直偏移（距离锚点的位置） -->
+        <item name="android:dropDownVerticalOffset">0dp</item>
+        <item name="android:dropDownHorizontalOffset">-234dp</item>
+        <item name="android:dropDownListViewStyle">@style/PopmenuDivier</item>
+    </style>
+
+    <style name="PopmenuDivier">
+        <item name="android:divider">@color/white</item>
+        <item name="android:dividerHeight">1dp</item>
+    </style>
+
+    <style name="popWindowTextStyle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#e6000000</item>
+        <item name="android:gravity">left|center</item>
+        <item name="android:layout_height">32dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:paddingLeft">14dp</item>
+    </style>
+
+    <style name="popWindowLineStyle">
+        <item name="android:background">#1a000000</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_width">130dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginHorizontal">15dp</item>
+    </style>
+
+    <style name="CustomSwitchMaterialStyle" parent="Widget.Material3.CompoundButton.Switch">
+        <!-- 开启时的轨道颜色 -->
+        <item name="colorControlActivated">#ff318BF3</item>
+        <!-- 关闭时的轨道颜色 -->
+        <item name="android:colorForeground">#29000000</item>
+        <!-- 关闭时的滑块颜色 -->
+        <item name="colorSwitchThumbNormal">#FFF</item>
+    </style>
+
+
+
 
 </resources>

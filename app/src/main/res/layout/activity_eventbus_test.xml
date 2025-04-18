@@ -19,6 +19,7 @@
     <TextView
         android:id="@+id/textView"
         android:text="发送消息"
+        android:visibility="gone"
         android:layout_margin="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -65,6 +66,13 @@
         android:layout_marginTop="32dp"
         android:src="@drawable/ic_launcher_foreground"
         android:layout_centerInParent="true"/>
+
+
+    <ImageView
+        android:id="@+id/imgApp"
+        android:layout_margin="32dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 
 </LinearLayout>

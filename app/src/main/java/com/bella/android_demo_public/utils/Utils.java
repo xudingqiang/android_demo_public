@@ -31,13 +31,15 @@ import androidx.core.content.FileProvider;
 import com.bella.android_demo_public.BellaDataBase;
 import com.bella.android_demo_public.R;
 import com.bella.android_demo_public.bean.RegionInfo;
-import com.caverock.androidsvg.SVG;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import org.xmlpull.v1.XmlPullParser;
 
 import java.io.File;
@@ -56,6 +58,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
 /**
  * Created by TJZM-14
  * AUTHOR: xudingqiang@teejo.com.cn
@@ -70,7 +75,6 @@ public class Utils {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
-
 
 
     /**
@@ -447,10 +451,10 @@ public class Utils {
     }
 
     // 从 assets 文件夹加载 SVG 文件
-    public static SVG loadSvgFromAssets(Context context, String fileName) {
+    public static com.bella.android_demo_public.svg.SVG loadSvgFromAssets(Context context, String fileName) {
         try {
             InputStream inputStream = context.getAssets().open(fileName);
-            return SVG.getFromInputStream(inputStream);
+            return com.bella.android_demo_public.svg.SVG.getFromInputStream(inputStream);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -458,12 +462,26 @@ public class Utils {
     }
 
     // 将 SVG 转换为 Bitmap
-    public static Bitmap svgToBitmap(SVG svg) {
+    public static Bitmap svgToBitmap(com.bella.android_demo_public.svg.SVG svg) {
         // 获取 SVG 的宽度和高度
-        int width = (int) svg.getDocumentWidth();
-        int height = (int) svg.getDocumentHeight();
+//        int width = (int) svg.getDocumentWidth() ;
+//        int height = (int) svg.getDocumentHeight();
+
+        int width = 36;
+        int height = 36;
+        // 获取 SVG 的宽度和高度
+        try {
+            width = (int) svg.getDocumentWidth();
+            height = (int) svg.getDocumentHeight();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (width <= 0 || height <= 0) {
+            width = height = 36;
+        }
         // 创建一个 Bitmap
-        Bitmap bitmap = Bitmap.createBitmap(36, 36, Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 
         // 使用 Canvas 将 SVG 渲染到 Bitmap 上
         Canvas canvas = new Canvas(bitmap);
@@ -563,6 +581,56 @@ public class Utils {
         intent.setDataAndType(data, "application/vnd.android.package-archive");
         context.startActivity(intent);
         return true;
+    }
+
+
+    public static int parseValue(Context context, InputStream inputStream) {
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(inputStream);
+            Element rootElement = document.getDocumentElement();
+            NodeList itemList = document.getElementsByTagName("item");
+//            CompatibleDatabaseHelper db = new CompatibleDatabaseHelper(context);
+            for (int i = 0; i < itemList.getLength(); i++) {
+                Element keycodeElement = (Element) itemList.item(i);
+                String date = keycodeElement.getAttribute("update_date");
+                String isdel = keycodeElement.getAttribute("isdel");
+                String keycode = keycodeElement.getAttribute("key_code");
+                NodeList packageList = keycodeElement.getElementsByTagName("package");
+                for (int j = 0; j < packageList.getLength(); j++) {
+                    Element packageElement = (Element) packageList.item(j);
+                    String packagename = packageElement.getAttribute("name");
+                    NodeList activityList = packageElement.getElementsByTagName("activity");
+                    for (int k = 0; k < activityList.getLength(); k++) {
+                        Element activityElement = (Element) activityList.item(k);
+                        String activityName = activityElement.getAttribute("name");
+                        String value = activityElement.getTextContent().replaceAll("\\s", "");
+//                        activityElement.getElementsByTagName("defaultvalue").item(0).getTextContent().replaceAll("\\s", "");
+                        LogTool.w("keycode: " + keycode + " ,packagename: " + packagename + " ,activityName: " + activityName + " ,value: " + value);
+                    }
+//
+                    //Slog.wtf("parseValue", "name " + name + ",packagename " + packagename + ",date  " + date + ",isDel " + isdel);
+//                    Map<String, Object> resMap = db.queryCompatibleByPackageNameAndKeyCode(packagename, name);
+//                    if ("true".equals(isdel)) {
+//                        db.deleteCompatible(packagename, name);
+//                    } else if (resMap == null || resMap.get("PACKAGE_NAME") == null) {
+//                        db.insertCompatible(packagename, name, defaultvalue);
+//                    } else {
+//                        String queryDate = resMap.get("FIELDS1").toString();
+//                        if (!date.equals(queryDate)) {
+//                            db.updateCompatible(packagename, name, defaultvalue, date);
+//                        }
+//                    }
+
+                }
+            }
+//            db.readCompatibles();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+        return 0;
     }
 
 }

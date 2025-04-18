@@ -1,0 +1,26 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_item_1"
+        android:title="选项 1">
+        <menu>
+            <item
+                android:id="@+id/menu_item_1_1"
+                android:title="子选项 1.1" />
+            <item
+                android:id="@+id/menu_item_1_2"
+                android:title="子选项 1.2" />
+        </menu>
+    </item>
+    <item
+        android:id="@+id/menu_item_2"
+        android:title="选项 2">
+        <menu>
+            <item
+                android:id="@+id/menu_item_2_1"
+                android:title="子选项 2.1" />
+            <item
+                android:id="@+id/menu_item_2_2"
+                android:title="子选项 2.2" />
+        </menu>
+    </item>
+</menu>

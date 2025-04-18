@@ -10,6 +10,7 @@
     <com.bella.android_demo_public.view.MyGLSurfaceView
         android:id="@+id/gl_surface_view"
         android:layout_width="match_parent"
+        android:tag="drag"
         android:layout_height="match_parent"
         />
 </LinearLayout>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?><!--compatible value
+   
+   1、每次更新 updatedate需改成当前日期 
+   2、同一个keycode只允许存在一次，可有多个package
+   3、如果keycode不用了则把对应的isdel 设置true
+   
+   <item
+        isdel="false"
+        keycode="isAllowHideDecorCaption"
+        updatedate="2024-04-23">
+        <package>
+            <packagename>com.lemon.lv</packagename>
+            <defaultvalue>true</defaultvalue>
+        </package>
+
+        <package>
+            <packagename>com.fde.x11</packagename>
+            <defaultvalue>true</defaultvalue>
+        </package>
+
+        <package>
+            <packagename>com.tencent.wemeet.app</packagename>
+            <defaultvalue>true</defaultvalue>
+        </package>
+    </item>
+-->
+<items>
+
+    <item
+        isdel="false"
+        key_code="isAllowHideDecorCaption"
+        update_date="2025-04-08">
+
+        <package name="com.fde.download">
+            <activity name="">true</activity>
+        </package>
+
+        <package name="mark.via">
+            <activity name="">false</activity>
+        </package>
+
+    </item>
+
+    <item
+        isdel="false"
+        key_code="size"
+        update_date="2025-04-08">
+
+
+        <package name="com.luna.music">
+            <activity name="">{ width = 800,height = 600 }</activity>
+        </package>
+
+        <package name="com.bella.android_demo_public">
+            <activity name="">{ width = 800,height = 600 }</activity>
+        </package>
+
+    </item>
+
+
+    <item
+        isdel="false"
+        key_code="minBoundsVisibleWidth"
+        update_date="2025-04-08">
+
+
+        <package name="com.luna.music">
+            <activity name="">50</activity>
+        </package>
+
+        <package name="com.bella.android_demo_public">
+            <activity name="">300</activity>
+        </package>
+
+    </item>
+
+    <item
+        isdel="false"
+        key_code="key1"
+        update_date="2025-04-08">
+
+
+        <package name="com.luna.music">
+            <activity name="test1">true</activity>
+            <activity name="test2">true</activity>
+        </package>
+
+        <package name="com.bella.android_demo_public">
+            <activity name="test6">true</activity>
+            <activity name="test7">true</activity>
+        </package>
+
+    </item>
+
+</items>
