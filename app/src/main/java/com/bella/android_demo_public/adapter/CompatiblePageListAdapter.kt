@@ -5,15 +5,14 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.EditText
 import android.widget.LinearLayout
+import android.widget.ListView
 import android.widget.PopupWindow
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatSpinner
 import androidx.recyclerview.widget.RecyclerView
 import com.bella.android_demo_public.R
 import com.bella.android_demo_public.adapter.CompatiblePkgListAdapter.Companion.TYPE_INPUT
@@ -56,7 +55,7 @@ class CompatiblePageListAdapter(
 
         if (TYPE_INPUT.equals(compatibleList.inputType)) {
             holder.layoutSwitch.visibility = View.GONE
-            holder.spinner.visibility = View.GONE
+            holder.txtSpinner.visibility = View.GONE
             holder.txtInput.visibility = View.VISIBLE
             holder.txtInput.text = item.value ?: ""
             holder.txtInput.setOnClickListener({
@@ -65,47 +64,15 @@ class CompatiblePageListAdapter(
 
         } else if (TYPE_SELECT.equals(compatibleList.inputType)) {
             holder.layoutSwitch.visibility = View.GONE
-            holder.spinner.visibility = View.VISIBLE
+            holder.txtSpinner.visibility = View.VISIBLE
             holder.txtInput.visibility = View.GONE
-            val listOptions = CompUtils.parseJson(compatibleList.optionJson) as Array<String>
-            val adapter = ArrayAdapter(
-                context,
-                R.layout.spinner_item_selected,
-                listOptions
-            ).also { adapter ->
-                adapter.setDropDownViewResource(R.layout.spinner_item_dropdown)
-            }
-            holder.spinner.adapter = adapter
-
-            if (item.value == null || "".equals(item.value)) {
-                holder.spinner.setSelection(0)
-            } else {
-                val index = listOptions.indexOf(item.value);
-                holder.spinner.setSelection(index)
-            }
-
-            holder.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    CompatibleConfig.updateValueData(
-                        context,
-                        item.keyCode,
-                        item.packageName,
-                        item.activityName,
-                        listOptions.get(position)
-                    )
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                }
-            }
+            holder.txtSpinner.text = item.value ?: context.getText(R.string.fde_input_hint)
+            holder.txtSpinner.setOnClickListener({
+                showPopupWindow(context, holder.txtSpinner, item)
+            })
         } else {
             holder.layoutSwitch.visibility = View.VISIBLE
-            holder.spinner.visibility = View.GONE
+            holder.txtSpinner.visibility = View.GONE
             holder.txtInput.visibility = View.GONE
             holder.switchComp.isChecked = item.value == "true"
             holder.switchComp.isChecked = "true".equals(item.value)
@@ -127,16 +94,43 @@ class CompatiblePageListAdapter(
         notifyDataSetChanged()
     }
 
-    private fun showPopupWindow(context: Context, view: View, content: String) {
-        val popupView = LayoutInflater.from(context).inflate(R.layout.popup_tip_view, null)
+    private fun showPopupWindow(context: Context, view: TextView, item: CompatibleValue) {
+        val popupView = LayoutInflater.from(context).inflate(R.layout.popup_list_view, null)
         popupWindow = PopupWindow(
             popupView,
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        popupView.findViewById<TextView>(R.id.txtContent)?.text = content;
+        val listOptions =
+            CompUtils.parseJson(compatibleList.optionJson) as Array<String>
+        val listView = popupView.findViewById<ListView>(R.id.listView)
+            ?: throw IllegalArgumentException("ListView not found")
+        val adapter = ArrayAdapter(
+            context,
+            R.layout.spinner_item_selected,
+            listOptions
+        )
+        listView.adapter = adapter
+
+        listView.setOnItemClickListener { parent, v, position, id ->
+            view.setText(listOptions.get(id.toInt()))
+            popupWindow.dismiss()
+            CompatibleConfig.updateValueData(
+                context,
+                item.keyCode,
+                item.packageName,
+                item.activityName,
+                listOptions.get(id.toInt())
+            )
+        }
         popupWindow.isOutsideTouchable = true
         popupWindow.showAsDropDown(view)
+//        popupWindow.showAtLocation(
+//            view,
+//            Gravity.RIGHT or Gravity.BOTTOM, // 右上角对齐
+//            0, // 右侧边距
+//            0 // 顶部边距
+//        )
     }
 
     private fun showCustomDialog(view: TextView, item: CompatibleValue) {
@@ -147,9 +141,12 @@ class CompatiblePageListAdapter(
         builder.setView(customView)
         val dialog = builder.create()
         dialog.show()
-        val editText = customView.findViewById<EditText>(R.id.editText) ?: throw IllegalArgumentException("EditText not found")
-        val txtCancel = customView.findViewById<TextView>(R.id.txtCancel) ?: throw IllegalArgumentException("TextViewTextView not found")
-        val txtConfirm = customView.findViewById<TextView>(R.id.txtConfirm) ?: throw IllegalArgumentException("TextView not found")
+        val editText = customView.findViewById<EditText>(R.id.editText)
+            ?: throw IllegalArgumentException("EditText not found")
+        val txtCancel = customView.findViewById<TextView>(R.id.txtCancel)
+            ?: throw IllegalArgumentException("TextViewTextView not found")
+        val txtConfirm = customView.findViewById<TextView>(R.id.txtConfirm)
+            ?: throw IllegalArgumentException("TextView not found")
         txtCancel?.setOnClickListener {
             dialog.dismiss()
         }
@@ -173,13 +170,14 @@ class CompatiblePageListAdapter(
             ?: throw IllegalArgumentException("ImagLinearLayouteView not found")
         val txtTitle: TextView = itemView.findViewById<TextView>(R.id.txtTitle)
             ?: throw IllegalArgumentException("TextView not found")
-        val spinner: AppCompatSpinner = itemView.findViewById<AppCompatSpinner>(R.id.spinner)
-            ?: throw IllegalArgumentException("AppCompatSpinner not found")
-
         val layoutSwitch: LinearLayout = itemView.findViewById<LinearLayout>(R.id.layoutSwitch)
             ?: throw IllegalArgumentException("LinearLayout not found")
         val txtInput: TextView =
             itemView.findViewById<TextView>(R.id.txtInput) ?: throw IllegalArgumentException(
+                "TextView not found"
+            )
+        val txtSpinner: TextView =
+            itemView.findViewById<TextView>(R.id.txtSpinner) ?: throw IllegalArgumentException(
                 "TextView not found"
             )
         val switchComp: CheckBox = itemView.findViewById<CheckBox>(R.id.switchComp)

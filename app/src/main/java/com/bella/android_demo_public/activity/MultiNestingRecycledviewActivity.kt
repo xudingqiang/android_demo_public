@@ -33,7 +33,7 @@ class MultiNestingRecycledviewActivity : AppCompatActivity(),
         recyclerView = findViewById(R.id.recyclerView)
         context = this ;
 
-//        packageName = "com.bella.android_demo_public";//getIntent().getStringExtra("packageName");
+        packageName = "com.bella.android_demo_public";//getIntent().getStringExtra("packageName");
         if(packageName == null){
             packageName = "";
         }

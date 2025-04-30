@@ -47,30 +47,30 @@ class OptionsChildPopupWindow(
 
 //        val adapter = ArrayAdapter<String>(mainActivity, android.R.layout.simple_list_item_1, items.toList())
 
-        listView.adapter = adapter
+        listView?.adapter = adapter
 
 
-        listView.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
-            // 获取被点击的条目
-            val uiModeManager: UiModeManager = mainActivity.getSystemService(
-                UiModeManager::class.java
-            )
-            val  mp = parent.getItemAtPosition(position) as Map<String, String>;
-             val name = mp.get("name");
-             val  res = mainActivity.resources ;
-             LogTool.i("Clicked---name : ${name}")
-             if(res.getStringArray(R.array.theme_options).get(0).equals(name)){
-                 LogTool.i("Clicked--1-name : ${name}")
-                 // 切换到深色模式
-                 uiModeManager.setApplicationNightMode(UiModeManager.MODE_NIGHT_YES)
-
-//                 uiModeManager.setNightModeActivated(true);
-             }else if(res.getStringArray(R.array.theme_options).get(1).equals(name)){
-                 LogTool.i("Clicked--2-name : ${name}")
-                 uiModeManager.setApplicationNightMode(UiModeManager.MODE_NIGHT_NO)
-             }
-            dismiss()
-        }
+//        listView?.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+//            // 获取被点击的条目
+//            val uiModeManager: UiModeManager = mainActivity?.getSystemService(
+//                UiModeManager::class.java
+//            )
+//            val  mp = parent.getItemAtPosition(position) as Map<String, String>;
+//             val name = mp.get("name");
+//             val  res = mainActivity.resources ;
+//             LogTool.i("Clicked---name : ${name}")
+//             if(res.getStringArray(R.array.theme_options).get(0).equals(name)){
+//                 LogTool.i("Clicked--1-name : ${name}")
+//                 // 切换到深色模式
+//                 uiModeManager.setApplicationNightMode(UiModeManager.MODE_NIGHT_YES)
+//
+////                 uiModeManager.setNightModeActivated(true);
+//             }else if(res.getStringArray(R.array.theme_options).get(1).equals(name)){
+//                 LogTool.i("Clicked--2-name : ${name}")
+//                 uiModeManager.setApplicationNightMode(UiModeManager.MODE_NIGHT_NO)
+//             }
+//            dismiss()
+//        }
 
 
     }

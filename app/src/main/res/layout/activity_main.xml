@@ -10,6 +10,30 @@
     tools:context=".MainActivity">
 
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/action_bar"
+
+        app:title="333"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"/>
+
+
+
+
+    <TextView
+        android:id="@+id/txtTitle"
+        android:text="111"
+        android:layout_marginTop="46dp"
+        android:paddingHorizontal="32dp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        android:textColor="#262626"
+        android:textSize="14sp"
+        android:gravity="center|left"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"/>
+
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -43,12 +67,14 @@
             <TextView
                 android:id="@+id/test1"
                 style="@style/textStyle"
+                android:textStyle="bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/test2"
                 style="@style/textStyle"
+                android:background="@drawable/custom_ripple_background"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -171,6 +197,10 @@
                 style="@style/textStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+
+
+
+
 
 
         </LinearLayout>

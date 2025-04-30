@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:window="http://schemas.android.com/apk/res-auto">
+    <!-- Define a split for the named activities. -->
+    <SplitPairRule
+        window:splitRatio="0.33"
+        window:splitLayoutDirection="locale"
+        window:splitMinWidthDp="140"
+        window:splitMinSmallestWidthDp="140"
+        window:splitMaxAspectRatioInPortrait="alwaysAllow"
+        window:finishPrimaryWithSecondary="never"
+        window:finishSecondaryWithPrimary="always"
+        window:animationBackgroundColor ="#0000ff"
+        window:placeholderActivityName=".MainActivity"
+        window:clearTop="false">
+        <SplitPairFilter
+            window:primaryActivityName=".activity.SplitScreenMainActivity"
+            window:secondaryActivityName=".activity.SplitScreenChildActivity"/>
+    </SplitPairRule>
+
+    <!-- Specify a placeholder for the secondary container when content is
+       not available. -->
+    <SplitPlaceholderRule
+        window:placeholderActivityName=".PlaceholderActivity"
+        window:splitRatio="0.33"
+        window:splitLayoutDirection="locale"
+        window:splitMinWidthDp="140"
+        window:splitMaxAspectRatioInPortrait="alwaysAllow"
+        window:stickyPlaceholder="false">
+        <ActivityFilter
+            window:activityName=".ListActivity"/>
+    </SplitPlaceholderRule>
+
+</resources>

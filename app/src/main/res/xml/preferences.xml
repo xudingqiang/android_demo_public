@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <SwitchPreferenceCompat
+        android:key="pref_key_switch"
+        android:title="开关设置"
+        android:order="-2"
+        android:icon="@drawable/ic_notifications"
+        android:summary="这是一个开关设置项" />
+
+    <EditTextPreference
+        android:key="pref_key_edit_text"
+        android:title="输入框设置"
+        android:order="-4"
+        app:icon="@drawable/ic_apps_test"
+        android:summary="输入一些文本" />
+
+    <ListPreference
+        android:key="pref_key_list"
+        android:title="列表选择"
+        android:summary="选择一个选项"
+        android:order="-1"
+        android:icon="@drawable/ic_settings_compatible"
+        android:entries="@array/list_preference_entries"
+        android:entryValues="@array/list_preference_values" />
+
+    <Preference
+        android:key="pref_key_about"
+        android:title="关于"
+        android:order="-3"
+        android:icon="@drawable/ic_settings_about_device"
+        android:summary="关于这个应用的信息" />
+</PreferenceScreen>

@@ -88,4 +88,5 @@
     <color name="mid_text"> #666 </color>
     <color name="light_text"> #999 </color>
 
+    <color name="homepage_compatible_background">#3D9140</color>
 </resources>

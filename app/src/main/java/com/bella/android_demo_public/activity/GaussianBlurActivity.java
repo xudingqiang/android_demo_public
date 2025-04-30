@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bella.android_demo_public.R;
 
+import java.util.concurrent.ConcurrentHashMap;
+
 public class GaussianBlurActivity extends AppCompatActivity {
 
     @Override
@@ -28,5 +30,6 @@ public class GaussianBlurActivity extends AppCompatActivity {
 
         // 将模糊效果应用到背景图片上
         backgroundImage.setRenderEffect(blurEffect);
+
     }
 }

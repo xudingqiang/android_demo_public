@@ -1,0 +1,12 @@
+<resources>
+    <string-array name="list_preference_entries">
+        <item>选项1</item>
+        <item>选项2</item>
+        <item>选项3</item>
+    </string-array>
+    <string-array name="list_preference_values">
+        <item>value1</item>
+        <item>value2</item>
+        <item>value3</item>
+    </string-array>
+</resources>

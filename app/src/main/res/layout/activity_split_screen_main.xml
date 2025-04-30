@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00ff00"
+    android:gravity="center"
+    android:id="@+id/rootView"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="Main Activity"
+        android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/startDetailActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="跳转子页面" />
+
+    <Button
+        android:id="@+id/btnFinish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="结束" />
+</LinearLayout>

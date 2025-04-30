@@ -16,7 +16,7 @@
         android:id="@+id/blurOverlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#80000000" /> <!-- 半透明黑色遮罩 -->
+        android:background="#80000000" /> <!-- 半透明黑色遮罩 b3FFFFFF-->
 
 
 </RelativeLayout>

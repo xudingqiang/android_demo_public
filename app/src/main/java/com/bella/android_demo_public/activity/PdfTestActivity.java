@@ -3,7 +3,7 @@ package com.bella.android_demo_public.activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.pdf.PdfDocument;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,6 +14,7 @@ import androidx.core.view.MenuProvider;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 
+import com.android.internal.graphics.drawable.BackgroundBlurDrawable;
 import com.bella.android_demo_public.R;
 import com.bella.android_demo_public.utils.LogTool;
 import com.github.barteksc.pdfviewer.PDFView;
@@ -126,18 +127,30 @@ public class PdfTestActivity extends AppCompatActivity implements OnPageChangeLi
 
         ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.AppTask> tasks = activityManager.getAppTasks();
+
 //        tasks.get(0).finishAndRemoveTask();
 
         int curTaskId = tasks.get(0).getTaskInfo().id;
+        tasks.get(0).moveToFront();
         for (ActivityManager.AppTask task : tasks) {
             // 获取任务信息
             ActivityManager.RecentTaskInfo info = task.getTaskInfo();
-            LogTool.w( "info id " + info.id + " curTastId " + curTaskId + ",tasks-size " + tasks.size() + ", ");
+
+            try {
+                if (info != null && info.topActivity != null && info.topActivity.getClassName() != null) {
+                    LogTool.w("info id " + info.id + " curTastId " + curTaskId + ",tasks-size " + tasks.size() + ", " + info.topActivity.getClassName());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 //            if (info.id == curTaskId) { // 假设你有方法获取当前任务 ID
 //                task.finishAndRemoveTask(); // 关闭任务
 ////                    break;
 //            }
 
+//            SQLiteDatabase db ;
+//            db.insertWithOnConflict()
+//            db.updateWithOnConflict()
         }
         finish();
     }
@@ -163,7 +176,8 @@ public class PdfTestActivity extends AppCompatActivity implements OnPageChangeLi
 
     @Override
     public void onPageChanged(int i, int i1) {
-
+//        BackgroundBlurDrawable backgroundBlurDrawable ;
+//        backgroundBlurDrawable.
     }
 
     @Override

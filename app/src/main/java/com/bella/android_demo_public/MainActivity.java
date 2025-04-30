@@ -23,15 +23,14 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowInsets;
-import android.view.WindowInsetsController;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.window.WindowContainerTransaction;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -49,8 +48,10 @@ import com.bella.android_demo_public.activity.LibpagDemoActivity;
 import com.bella.android_demo_public.activity.MultiNestingRecycledviewActivity;
 import com.bella.android_demo_public.activity.NetTestActivity;
 import com.bella.android_demo_public.activity.PdfTestActivity;
+import com.bella.android_demo_public.activity.PreferenceTestActivity;
 import com.bella.android_demo_public.activity.RecyclerviewSelectionTestActivity;
 import com.bella.android_demo_public.activity.RoomTestActivity;
+import com.bella.android_demo_public.activity.SplitScreenMainActivity;
 import com.bella.android_demo_public.activity.TestKotlinActivity;
 import com.bella.android_demo_public.bean.MessageEvent;
 import com.bella.android_demo_public.dialog.DlgUpdateShow;
@@ -64,15 +65,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Field;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardWatchEventKinds;
-import java.nio.file.WatchEvent;
-import java.nio.file.WatchKey;
-import java.nio.file.WatchService;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -91,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int REQUEST_CODE_1 = 1001;
 
     public static final int REQUEST_CODE_2 = 1002;
+
 
     public static List<Field> getAllFields(Class<?> clazz) {
         List<Field> fields = new ArrayList<>();
@@ -130,10 +124,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this;
+        long lastTime = System.currentTimeMillis();
         setTitle("bella");
         LogTool.w("bellaTest", "onCreate start");
         EventBus.getDefault().register(this);
         requestWindowFeature(Window.FEATURE_ACTION_BAR); // 或 FEATURE_CUSTOM_TITLE
+
+        setTitle("Test");
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
+
 
         // 设置Activity的窗口风格
         Window window = getWindow();
@@ -201,32 +202,31 @@ public class MainActivity extends AppCompatActivity {
 
 
 //        View decorView = getWindow().getDecorView();
-        decorView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            @Override
-            public boolean onPreDraw() {
-                ViewTreeObserver viewTreeObserver = decorView.getViewTreeObserver();
-                viewTreeObserver.removeOnPreDrawListener(this);
+//        decorView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+//            @Override
+//            public boolean onPreDraw() {
+//                ViewTreeObserver viewTreeObserver = decorView.getViewTreeObserver();
+//                viewTreeObserver.removeOnPreDrawListener(this);
+//
+//                // 确保在视图准备好之后进行操作
+//                WindowInsetsController insetsController = getWindow().getInsetsController();
+//                if (insetsController != null) {
+//                    insetsController.setSystemBarsBehavior(WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS);// 显示状态栏
+//                }
+//
+//                return true;
+//            }
+//        });
+//        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-                // 确保在视图准备好之后进行操作
-                WindowInsetsController insetsController = getWindow().getInsetsController();
-                if (insetsController != null) {
-                    insetsController.setSystemBarsBehavior(WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS);// 显示状态栏
-                }
 
-                return true;
-            }
-        });
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-
-
-        window.setDecorFitsSystemWindows(false);
-        View customTitleBar = LayoutInflater.from(context).inflate(R.layout.layout_file_controller, null);
-        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParams.gravity = Gravity.TOP;
-        window.addContentView(customTitleBar, layoutParams);
+//        window.setDecorFitsSystemWindows(false);
+//        View customTitleBar = LayoutInflater.from(context).inflate(R.layout.layout_file_controller, null);
+//        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+//        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+//        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+//        layoutParams.gravity = Gravity.TOP;
+//        window.addContentView(customTitleBar, layoutParams);
 
         LogTool.w("isRunding start ");
 //        boolean isRunding = isServiceRunning(this, "XWindowService");
@@ -360,6 +360,11 @@ public class MainActivity extends AppCompatActivity {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
+
+        long curTime = System.currentTimeMillis();
+        LogTool.w("subTime "+ (curTime -  lastTime));
+        WindowContainerTransaction wct ;
+
     }
 
 
@@ -455,8 +460,12 @@ public class MainActivity extends AppCompatActivity {
         TextView test1 = findViewById(R.id.test1);
         test1.setText("libpag动画测试");
         test1.setBackgroundColor(Color.RED);
+        test1.setVisibility(View.VISIBLE);
         test1.setOnClickListener(view -> {
-            startActivity(new Intent(context, LibpagDemoActivity.class));
+
+
+
+//            startActivity(new Intent(context, LibpagDemoActivity.class));
         });
 
 
@@ -466,6 +475,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(context, EglTestActivity.class));
 
         });
+
+
 
         TextView test3 = findViewById(R.id.test3);
         test3.setText("Room测试");
@@ -690,7 +701,6 @@ public class MainActivity extends AppCompatActivity {
         layoutParent.addView(view);
 
 
-
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -756,12 +766,12 @@ public class MainActivity extends AppCompatActivity {
 //        registerForContextMenu(test14);
 
 
-
         test14.setText("级联菜单");
         test14.setOnClickListener(v -> {
             //v.showContextMenu();
             showPopupMenu(v);
         });
+
 
 
         TextView test15 = findViewById(R.id.test15);
@@ -774,6 +784,20 @@ public class MainActivity extends AppCompatActivity {
         test16.setText("多层嵌套列表");
         test16.setOnClickListener(v -> {
             startActivity(new Intent(context, MultiNestingRecycledviewActivity.class));
+        });
+
+
+        TextView test17 = findViewById(R.id.test17);
+        test17.setText("分屏");
+        test17.setOnClickListener(v -> {
+            startActivity(new Intent(context, SplitScreenMainActivity.class));
+        });
+
+
+        TextView test18 = findViewById(R.id.test18);
+        test18.setText("Preference测试");
+        test18.setOnClickListener(v -> {
+            startActivity(new Intent(context, PreferenceTestActivity.class));
         });
 
     }
@@ -831,6 +855,7 @@ public class MainActivity extends AppCompatActivity {
 ////                return super.onContextItemSelected(item);
 ////        }
 //        return super.onContextItemSelected(item);
+
 //    }
 
     @Subscribe
@@ -849,14 +874,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) {
-            WindowInsetsController insetsController = getWindow().getInsetsController();
-            if (insetsController != null) {
-                insetsController.show(WindowInsets.Type.statusBars()); // 显示状态栏
-                insetsController.hide(WindowInsets.Type.navigationBars());
-
-            }
-        }
+//        if (hasFocus) {
+//            WindowInsetsController insetsController = getWindow().getInsetsController();
+//            if (insetsController != null) {
+//                insetsController.show(WindowInsets.Type.statusBars()); // 显示状态栏
+//                insetsController.hide(WindowInsets.Type.navigationBars());
+//
+//            }
+//        }
     }
 
 

@@ -29,7 +29,7 @@
         android:layout_height="@dimen/settings_item_height"
         android:paddingHorizontal="16dp"
         android:gravity="center"
-        android:background="@color/page_bg"
+
         android:orientation="horizontal">
 
 

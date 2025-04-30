@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_height="44dp"
+    android:background="#c7F7F7F7"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <ImageView
+        android:id="@+id/imgLeft"
+        android:layout_alignParentLeft="true"
+        android:layout_width="wrap_content"
+        android:src="@drawable/icon_left"
+        android:layout_centerVertical="true"
+
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/imgRight"
+        android:layout_toRightOf="@id/imgLeft"
+        android:layout_width="wrap_content"
+        android:src="@drawable/icon_right"
+        android:layout_centerVertical="true"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_toRightOf="@id/imgRight"
+        android:text="兼容性配置"
+        android:textSize="14sp"
+        android:textColor="#333333"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+
+    <ImageView
+        android:id="@+id/imgFullscreen"
+        android:layout_gravity="center_vertical|end"
+        android:src="@drawable/icon_fullscreen"
+        android:duplicateParentState="true"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/imgMinimize"
+        android:layout_width="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/imgMinimize"
+        android:layout_gravity="center_vertical|end"
+        android:src="@drawable/icon_minimize"
+        android:duplicateParentState="true"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/imgMaximize"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/imgMaximize"
+        android:layout_gravity="center_vertical|end"
+        android:src="@drawable/icon_maximize"
+        android:duplicateParentState="true"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/imgClose"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/imgClose"
+        android:src="@drawable/icon_close"
+        android:duplicateParentState="true"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"/>
+
+
+</RelativeLayout>

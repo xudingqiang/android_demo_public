@@ -38,19 +38,19 @@ class NewOptionsPopupWindow(
 //            dismiss()
 //        })
 
-        contentView.findViewById<TextView>(R.id.text_display_properties).setOnClickListener({
+        contentView.findViewById<TextView>(R.id.text_display_properties)?.setOnClickListener({
 
             dismiss()
         })
 
 
 
-        contentView.findViewById<TextView>(R.id.text_change_wallpaper).setOnClickListener({
+        contentView.findViewById<TextView>(R.id.text_change_wallpaper)?.setOnClickListener({
 
             dismiss()
         })
 
-        contentView.findViewById<TextView>(R.id.text_display_settings).setOnClickListener({
+        contentView.findViewById<TextView>(R.id.text_display_settings)?.setOnClickListener({
 
             dismiss()
         })
@@ -63,7 +63,7 @@ class NewOptionsPopupWindow(
             false
         }
 
-        contentView.findViewById<RelativeLayout>(R.id.layout_system_theme).setOnHoverListener { v: View, event: MotionEvent ->
+        contentView.findViewById<RelativeLayout>(R.id.layout_system_theme)?.setOnHoverListener { v: View, event: MotionEvent ->
             when (event.action) {
                 MotionEvent.ACTION_HOVER_ENTER -> {
                     // 鼠标悬停进入
@@ -120,7 +120,7 @@ class NewOptionsPopupWindow(
 
 
 
-        contentView.findViewById<RelativeLayout>(R.id.layout_view_type).setOnHoverListener { v: View, event: MotionEvent ->
+        contentView.findViewById<RelativeLayout>(R.id.layout_view_type)?.setOnHoverListener { v: View, event: MotionEvent ->
             when (event.action) {
                 MotionEvent.ACTION_HOVER_ENTER -> {
                     // 鼠标悬停进入
@@ -165,12 +165,12 @@ class NewOptionsPopupWindow(
 //        val blurEffect = RenderEffect.createBlurEffect(6f, 6f, Shader.TileMode.CLAMP)
 //        cardView?.setRenderEffect(blurEffect)
 
-        contentView.findViewById<RelativeLayout>(R.id.layout_sort).setOnClickListener({
+        contentView.findViewById<RelativeLayout>(R.id.layout_sort)?.setOnClickListener({
 
             dismiss()
         })
 
-        contentView.findViewById<TextView>(R.id.text_open_the_terminal).setOnClickListener({
+        contentView.findViewById<TextView>(R.id.text_open_the_terminal)?.setOnClickListener({
 
             dismiss()
         })
