@@ -3,20 +3,21 @@ package com.bella.android_demo_public.activity
 import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bella.android_demo_public.BellaDataBase
 import com.bella.android_demo_public.R;
 import com.bella.android_demo_public.adapter.CompatibleListAdapter
 import com.bella.android_demo_public.bean.CompatibleList
-import com.bella.android_demo_public.bean.User
 import com.bella.android_demo_public.utils.CompUtils
 import com.bella.android_demo_public.utils.LogTool
+import com.bella.android_demo_public.view.model.CompatibleViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.InputStream
 
 
 class MultiNestingRecycledviewActivity : AppCompatActivity(),
@@ -27,16 +28,19 @@ class MultiNestingRecycledviewActivity : AppCompatActivity(),
     private var context: Context? = null;
     private var packageName :String ? = "";
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    private lateinit var viewModel: CompatibleViewModel
+
+
+    override  fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_multi_nesting_recycledview)
         recyclerView = findViewById(R.id.recyclerView)
         context = this ;
 
-        packageName = "com.bella.android_demo_public";//getIntent().getStringExtra("packageName");
-        if(packageName == null){
-            packageName = "";
-        }
+//        packageName = "com.bella.android_demo_public";//getIntent().getStringExtra("packageName");
+//        if(packageName == null){
+//            packageName = "";
+//        }
         recyclerView?.layoutManager = LinearLayoutManager(this);
 
         list = ArrayList()
@@ -45,26 +49,43 @@ class MultiNestingRecycledviewActivity : AppCompatActivity(),
         recyclerView?.adapter = adapter;
 
 
+        viewModel = ViewModelProvider(this).get(CompatibleViewModel::class.java)
+
+
+        viewModel._compatibleLists.observe(this,Observer { result ->
+            // 更新UI界面
+            LogTool.i("11111 result "+result)
+            list =result
+            adapter?.setData(list!!)
+        })
+
+        viewModel.loadCompatibleData()
 
         GlobalScope.launch {
             CompUtils.parseList(context, getResources().openRawResource(R.raw.comp_config_list))
             CompUtils.parseValue(context, getResources().openRawResource(R.raw.comp_config_value))
         }
 
-        GlobalScope.launch(Dispatchers.IO) {
-            // 在工作线程中执行某些操作
-            list = BellaDataBase.getInstance(context).compatibleListDao().getAllCompatibleList();
-
-            // 切换到主线程更新 UI
+        lifecycleScope.launch {
             withContext(Dispatchers.Main) {
-                adapter?.setData(list!!)
-                LogTool.i("list "+list)
+
             }
         }
 
+//        GlobalScope.launch(Dispatchers.IO) {
+//            // 在工作线程中执行某些操作
+//            list = BellaDataBase.getInstance(context).compatibleListDao().getAllCompatibleList();
+//
+//            // 切换到主线程更新 UI
+//            withContext(Dispatchers.Main) {
+//                adapter?.setData(list!!)
+//                LogTool.i("list "+list)
+//            }
+//        }
+
     }
 
-    private fun getData() {
+    private suspend  fun getData() {
 //        list.c
 //        val tempList: List<Map<String, Any>> = CompatibleConfig.queryListData(context)
 //        if (tempList != null) {

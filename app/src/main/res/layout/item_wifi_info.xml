@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="12dp"
+    android:paddingVertical="9dp"
+    android:id="@+id/rootView"
+    android:gravity="center_vertical"
+    android:background="#fff"
+    android:layout_marginBottom="1dp"
+    android:layout_gravity="center_vertical"
+    android:orientation="horizontal">
+
+
+    <LinearLayout
+        android:id="@+id/layoutWifiIcon"
+        android:layout_width="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:gravity="center"
+        android:background="@drawable/round_background_grep"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imgSignal"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/icon_wifi_four"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+
+
+    <TextView
+        android:id="@+id/txtWifiName"
+        android:text="Phytium_5G"
+        android:textColor="#d9000000"
+        android:textSize="14sp"
+        android:paddingHorizontal="8dp"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/layoutWifiIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/txtWifiType"
+        android:text="5G"
+        android:textColor="#73262626"
+        android:textSize="12sp"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/txtWifiName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/txtWifiStatus"
+        android:text="已连接"
+        android:visibility="gone"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/imgWifi"
+        android:layout_width="wrap_content"
+        android:textColor="#ff318BF3"
+        android:textSize="14sp"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/imgWifi"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/imgWifiInfo"
+        android:layout_width="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:src="@drawable/icon_lock"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/imgWifiInfo"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:src="@drawable/icon_remark"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>

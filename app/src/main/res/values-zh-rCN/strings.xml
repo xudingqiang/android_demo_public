@@ -1,0 +1,13 @@
+<resources>
+
+    <string name="fde_btn_cancel">取消</string>
+    <string name="fde_btn_confirm">确定</string>
+    <string name="configurable_interfaces">可配置接口</string>
+    <string name="ip_settings">IP 设置</string>
+    <string name="ip_address">IP 地址</string>
+    <string name="default_gateway">默认网关</string>
+    <string name="subnet_mask">子网掩码</string>
+    <string name="preferred_dns">首选DNS</string>
+    <string name="alternative_dns">备选DNS</string>
+
+</resources>

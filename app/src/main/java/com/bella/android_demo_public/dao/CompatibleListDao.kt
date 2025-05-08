@@ -1,5 +1,6 @@
 package com.bella.android_demo_public.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -20,7 +21,13 @@ interface CompatibleListDao {
      fun delete(compatibleList: CompatibleList)
 
     @Query("SELECT * FROM COMPATIBLE_LIST")
-     fun getAllCompatibleList(): List<CompatibleList>
+      fun getAllCompatibleList(): List<CompatibleList>
+
+     @Query("SELECT * FROM COMPATIBLE_LIST")
+       fun getAllCompatibleListData(): LiveData<List<CompatibleList>>
+
+    @Query("SELECT * FROM COMPATIBLE_LIST")
+    fun getAllCompatibleListData2(): LiveData<List<CompatibleList>>
 
     @Query("SELECT * FROM COMPATIBLE_LIST  WHERE KEY_CODE LIKE :arg0")
      fun queryCompatibleBykeyCode(arg0: String): CompatibleList

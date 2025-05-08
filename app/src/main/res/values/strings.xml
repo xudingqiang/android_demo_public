@@ -78,7 +78,19 @@
         <item>Option 3</item>
     </string-array>
 
-    <string name="fde_btn_cancel">取消</string>
-    <string name="fde_btn_confirm">确定</string>
+    <string-array name="spinner_ip">
+        <item>DHCP</item>
+        <item>Manual Input</item>
+    </string-array>
+
+    <string name="fde_btn_cancel">Cancel</string>
+    <string name="fde_btn_confirm">Confirm</string>
+    <string name="configurable_interfaces">Configurable interfaces</string>
+    <string name="ip_settings">IP Settings</string>
+    <string name="ip_address">IP Address</string>
+    <string name="default_gateway">default gateway</string>
+    <string name="subnet_mask">Subnet Mask</string>
+    <string name="preferred_dns">Preferred DNS</string>
+    <string name="alternative_dns">Alternative DNS</string>
 
 </resources>

@@ -7,11 +7,13 @@ import android.app.usage.UsageStatsManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.ContentObserver;
 import android.graphics.Color;
 import android.graphics.Insets;
 import android.net.Uri;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -55,6 +57,7 @@ import com.bella.android_demo_public.activity.SplitScreenMainActivity;
 import com.bella.android_demo_public.activity.TestKotlinActivity;
 import com.bella.android_demo_public.bean.MessageEvent;
 import com.bella.android_demo_public.dialog.DlgUpdateShow;
+import com.bella.android_demo_public.receiver.WifiBroadcastReceiver;
 import com.bella.android_demo_public.utils.LogTool;
 import com.bella.android_demo_public.utils.SPUtils;
 import com.bella.android_demo_public.utils.Utils;
@@ -78,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
     NewOptionsPopupWindow popupWindow;
     OptionsChildPopupWindow popupChildWindow;
     MyFileObserver observer;
+    private WifiBroadcastReceiver wifiBroadcastReceiver;
+
 
     public static final int REQUEST_CODE = 1000;
 
@@ -135,6 +140,13 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
 
+
+        wifiBroadcastReceiver = new WifiBroadcastReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+        filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+        filter.addAction(WifiManager.RSSI_CHANGED_ACTION);
+        registerReceiver(wifiBroadcastReceiver, filter);
 
         // 设置Activity的窗口风格
         Window window = getWindow();
@@ -462,10 +474,7 @@ public class MainActivity extends AppCompatActivity {
         test1.setBackgroundColor(Color.RED);
         test1.setVisibility(View.VISIBLE);
         test1.setOnClickListener(view -> {
-
-
-
-//            startActivity(new Intent(context, LibpagDemoActivity.class));
+            startActivity(new Intent(context, LibpagDemoActivity.class));
         });
 
 
@@ -869,6 +878,8 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
         observer.stopWatching();
+        unregisterReceiver(wifiBroadcastReceiver);
+
     }
 
     @Override

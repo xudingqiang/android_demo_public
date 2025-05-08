@@ -12,11 +12,39 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/action_bar"
-
+        android:background="#00ff00"
         app:title="333"
+
         android:layout_width="match_parent"
         android:layout_height="46dp"/>
 
+
+
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:layout_width="wrap_content"
+
+    android:layout_height="wrap_content">
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+
+        android:tag="drag">
+        <include layout="@layout/layout_settings_title_bar"/>
+    </Toolbar>
+
+
+    <Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:tag="drag">
+        <include layout="@layout/layout_settings_title_bar"/>
+    </Toolbar>
 
 
 

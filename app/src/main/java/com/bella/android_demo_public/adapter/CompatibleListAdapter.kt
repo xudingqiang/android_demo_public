@@ -1,6 +1,7 @@
 package com.bella.android_demo_public.adapter
 
 import android.content.Context
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -128,7 +129,7 @@ class CompatibleListAdapter(
             ?: throw IllegalArgumentException("Switch not found")
     }
 
-    private fun showPopupWindow(context: Context, view: View, content: String) {
+    private fun showPopupWindow(context: Context, anchorView: View, content: String) {
         val popupView = LayoutInflater.from(context).inflate(R.layout.popup_tip_view, null)
         popupWindow = PopupWindow(
             popupView,
@@ -137,7 +138,29 @@ class CompatibleListAdapter(
         )
         popupView.findViewById<TextView>(R.id.txtContent)?.text = content;
         popupWindow.isOutsideTouchable = true
-        popupWindow.showAsDropDown(view)
+//        popupWindow.showAsDropDown(anchorView,20,-48)
+        popupWindow.showAsDropDown(anchorView)
+
+//        val anchorLocation = IntArray(2)
+//        anchorView.getLocationOnScreen(anchorLocation)
+//
+//        val anchorX = anchorLocation[0]
+//        val anchorY = anchorLocation[1]
+//
+//        val screenWidth = context.resources.displayMetrics.widthPixels
+//        val screenHeight = context.resources.displayMetrics.heightPixels
+//
+//        val popupWidth = popupWindow.contentView.measuredWidth
+//        val popupHeight = popupWindow.contentView.measuredHeight
+//
+//        var popupX = anchorX
+//        var popupY = anchorY + anchorView.height
+//
+//        if (popupY + popupHeight > screenHeight) {
+//            popupY = anchorY - popupHeight
+//        }
+//
+//        popupWindow.showAtLocation(anchorView, Gravity.NO_GRAVITY, 0, popupY)
     }
 
 
