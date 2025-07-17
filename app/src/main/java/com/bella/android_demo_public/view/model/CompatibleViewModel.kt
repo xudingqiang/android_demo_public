@@ -7,7 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.bella.android_demo_public.BellaDataBase
 import com.bella.android_demo_public.bean.CompatibleList
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class CompatibleViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -31,9 +33,11 @@ class CompatibleViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     fun loadCompatibleData(){
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val result = compatibleListDao.getAllCompatibleList()
-            _compatibleLists.value = result
+            withContext(Dispatchers.Main){
+                _compatibleLists.value = result
+            }
         }
     }
 

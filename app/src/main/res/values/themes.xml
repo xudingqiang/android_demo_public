@@ -12,6 +12,7 @@
         <item name="android:spinnerStyle">@style/ShadowSpinnerStyle</item>
         <item name="android:windowMinWidthMajor">1000dp</item>
         <item name="android:windowMinWidthMinor">600dp</item>
+        <item name="android:fontFamily">@font/puhui_family</item>
 
         <!-- Status bar color. -->
 
@@ -34,6 +35,11 @@
     <style name="CalendarTheme.WithoutActionBar" parent="Theme.Material3.Light.NoActionBar">
 
 
+    </style>
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Android_demo_public" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
 

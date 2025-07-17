@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
     <uses-permission android:name="com.android.systemui.permission.PLUGIN" />
@@ -26,10 +27,9 @@
     <uses-permission
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
     <application
         android:name=".MyApp"
@@ -46,6 +46,15 @@
         android:theme="@style/Theme.Android_demo_public"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:excludeFromRecents="true"
+            android:name=".activity.TestComposableActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Android_demo_public" />
+        <activity
+            android:name=".activity.SettingsActivity"
+            android:screenOrientation="landscape"
+            android:exported="false" />
         <activity
             android:name=".activity.PreferenceTestActivity"
             android:exported="false" />
@@ -75,7 +84,13 @@
         <activity
             android:name=".activity.MultiNestingRecycledviewActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
-            android:exported="false" />
+            android:exported="false">
+            <layout
+                android:defaultWidth="1dp"
+                android:defaultHeight="1dp"
+                android:minWidth="1dp"
+                android:minHeight="1dp" />
+        </activity>
         <activity
             android:name=".activity.AppsListActivity"
             android:exported="false">
@@ -88,6 +103,19 @@
             android:name=".MyService"
             android:enabled="true"
             android:exported="true" />
+        <service
+            android:name=".MyInputMethodService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BIND_INPUT_METHOD">
+            <intent-filter>
+                <action android:name="android.view.InputMethod" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.view.im"
+                android:resource="@xml/method" />
+        </service>
 
         <activity
             android:name=".activity.PdfTestActivity"
@@ -141,9 +169,7 @@
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
             android:exported="true">
-            <layout
-                android:minWidth="1000dp"
-                android:minHeight="600dp" />
+
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,10 +1,13 @@
 package com.bella.android_demo_public.activity
 
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.view.View
-import android.view.WindowManager
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.pm.ShortcutInfoCompat
@@ -12,11 +15,27 @@ import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
 import com.bella.android_demo_public.R
 import com.bella.android_demo_public.utils.LogTool
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+
 
 class TestKotlinActivity : AppCompatActivity() {
     private var windowContentView: View? = null
     private var txtTestKotlin: TextView? = null;
     var context :Context? = null ;
+    var imgView: ImageView? = null
+    var animationDrawable: AnimationDrawable? = null
+
+    var btnStart: Button? = null
+    var btnEnd: Button? = null
+    var btnTest1: Button? = null
+    var btnTest2: Button? = null
+    var btnTest3: Button? = null
+
+    private val arrayTop =
+        arrayOf("dark_ui_mode", "toggle_keyboard_sticky_keys", "toggle_audio_description")
+    private val arrayBottom = arrayOf("screen_timeout", "toggle_keyboard_bounce_keys")
+    private val arraySquare = arrayOf("reduce_bright_colors_preference")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +52,66 @@ class TestKotlinActivity : AppCompatActivity() {
 //        }else{
 //            LogTool.i("0000000000")
 //        }
+        btnStart = findViewById(R.id.btnStart)
+        btnEnd = findViewById(R.id.btnEnd)
+        btnTest1 = findViewById(R.id.btnTest1)
+        btnTest2 = findViewById(R.id.btnTest2)
+        btnTest3 = findViewById(R.id.btnTest3)
+        imgView = findViewById(R.id.imageView)
+
+        val redId = resources.getIdentifier("status_bar_height","dimen","android");
+        val height = resources.getDimensionPixelSize(redId)
+
+        LogTool.w("height "+height)
+        imgView?.setBackgroundResource(R.drawable.frame_animation)
+        animationDrawable = imgView!!.background as AnimationDrawable
+
+        btnTest1?.setOnClickListener({
+            val intent = Intent()
+            val cn: ComponentName? = ComponentName.unflattenFromString("com.android.settings/.Settings\$PrivacyDashboardActivity")
+            intent.component = cn;
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+        })
+
+        btnTest2?.setOnClickListener({
+            val intent = Intent()
+            val cn: ComponentName? = ComponentName.unflattenFromString("com.android.settings/.Settings\$PrivacyDashboardActivity")
+            intent.component = cn;
+            intent.putExtra("packageName",packageName)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+        })
+
+        btnTest3?.setOnClickListener({
+            val intent = Intent()
+            val cn: ComponentName? = ComponentName.unflattenFromString("com.android.settings/.Settings\$PrivacyDashboardActivity")
+            intent.component = cn;
+            intent.putExtra("keyCode","isShiftContentBelowCaption")
+            intent.putExtra("activityName","TestKotlinActivity")
+//            intent.putExtra("packageName",packageName)
+            intent.putExtra("packageName","com.tencent.mm")
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+        })
+
+        btnStart!!.setOnClickListener { view: View? ->
+            animationDrawable!!.start()
+        }
+
+
+        btnEnd!!.setOnClickListener { view: View? ->
+            animationDrawable!!.stop()
+        }
+
+
+        val job = GlobalScope.launch {
+            repeat(1) { i ->
+                animationDrawable!!.start()
+
+
+            }
+        }
 
 
 
@@ -42,7 +121,11 @@ class TestKotlinActivity : AppCompatActivity() {
 
 
 
+
+
+
     }
+
 
     fun createPinnedShortcut(context: Context) {
         LogTool.i("createPinnedShortcut.........")

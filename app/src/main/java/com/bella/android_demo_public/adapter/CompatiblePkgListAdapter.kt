@@ -160,7 +160,9 @@ class CompatiblePkgListAdapter(
                     holder.txtInput.visibility = View.GONE
                     holder.switchComp.isChecked = item.value == "true"
 
+
                     holder.switchComp.isChecked = "true".equals(item.value)
+
 
                     holder.switchComp.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { compoundButton, b ->
                         CompatibleConfig.updateValueData(

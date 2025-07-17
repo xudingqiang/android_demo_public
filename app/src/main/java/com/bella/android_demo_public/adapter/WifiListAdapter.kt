@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -35,6 +36,34 @@ class WifiListAdapter (val context: Context) :
         holder.rootView.setOnClickListener({
             showCustomDialog(holder.rootView);
         })
+
+
+        val  signal = item.signal
+        if(item.status == 1){
+            holder.txtWifiStatus.visibility = View.VISIBLE
+            holder.layoutWifiIcon.setBackgroundResource(R.drawable.round_background_blue)
+            if (signal >= 80) {
+                holder.imgSignal.setImageResource(R.mipmap.icon_wifi_four_white);
+            } else if (signal >= 50) {
+                holder.imgSignal.setImageResource(R.mipmap.icon_wifi_three_white);
+            } else if (signal > 20) {
+                holder.imgSignal.setImageResource(R.mipmap.icon_wifi_two_white);
+            } else {
+                holder.imgSignal.setImageResource(R.mipmap.icon_wifi_one_white);
+            }
+        }else{
+            holder.txtWifiStatus.visibility = View.GONE
+            holder.layoutWifiIcon.setBackgroundResource(R.drawable.round_background_grep)
+            if (signal >= 80) {
+                holder.imgSignal.setImageResource(R.mipmap.icon_wifi_four);
+            } else if (signal >= 50) {
+                holder.imgSignal.setImageResource(R.mipmap.icon_wifi_three);
+            } else if (signal > 20) {
+                holder.imgSignal.setImageResource(R.mipmap.icon_wifi_two);
+            } else {
+                holder.imgSignal.setImageResource(R.mipmap.icon_wifi_one);
+            }
+        }
 
     }
 
@@ -66,6 +95,8 @@ class WifiListAdapter (val context: Context) :
     inner class NetWorkViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val rootView: RelativeLayout = itemView.findViewById<RelativeLayout>(R.id.rootView)
             ?: throw IllegalArgumentException("RelativeLayout not found")
+        val layoutWifiIcon: LinearLayout = itemView.findViewById<LinearLayout>(R.id.layoutWifiIcon)
+            ?: throw IllegalArgumentException("LinearLayout not found")
         val txtWifiName: TextView = itemView.findViewById<TextView>(R.id.txtWifiName)
             ?: throw IllegalArgumentException("TextView not found")
         val txtWifiType: TextView = itemView.findViewById<TextView>(R.id.txtWifiType)

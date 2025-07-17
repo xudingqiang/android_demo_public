@@ -1,5 +1,6 @@
 package com.bella.android_demo_public.fragment
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -31,6 +32,13 @@ class BlankFragment : Fragment() {
 
         getActivity()?.setTitle(getString(R.string.fde_compatible_set));
 
+        val  packageName : String = "";
+        val appInfo = activity?.packageManager?.getApplicationInfo(packageName, 0)
+        if (appInfo != null) {
+            val appName = activity?.packageManager?.let { appInfo.loadLabel(it).toString() }
+            val appIcon: Drawable? = appInfo.loadIcon(activity?.packageManager)
+
+        }
     }
 
     override fun onCreateView(
@@ -40,6 +48,8 @@ class BlankFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_blank, container, false)
     }
+
+
 
     companion object {
         /**

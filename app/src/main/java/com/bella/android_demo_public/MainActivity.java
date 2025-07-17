@@ -1,6 +1,7 @@
 package com.bella.android_demo_public;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
@@ -8,7 +9,9 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.database.ContentObserver;
 import android.graphics.Color;
 import android.graphics.Insets;
@@ -19,6 +22,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.Settings;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -39,6 +43,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
 
 import com.bella.android_demo_public.activity.AnimationTestActivity;
 import com.bella.android_demo_public.activity.AppsListActivity;
@@ -94,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
     public static List<Field> getAllFields(Class<?> clazz) {
         List<Field> fields = new ArrayList<>();
 
+
         // 循环遍历父类，获取所有声明的字段
         while (clazz != null) {
             // 获取当前类声明的所有字段
@@ -105,25 +111,113 @@ public class MainActivity extends AppCompatActivity {
             clazz = clazz.getSuperclass();
         }
 
+
+
         return fields;
     }
 
     private void setWindowLayoutParams() {
-        WindowManager.LayoutParams params = getWindow().getAttributes();
-        params.width = WindowManager.LayoutParams.MATCH_PARENT;
-        params.height = WindowManager.LayoutParams.MATCH_PARENT;
-
-        // 设置窗口类型为自由窗口
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            params.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
-        }
+//        WindowManager.LayoutParams params = getWindow().getAttributes();
+//        params.width = 540;
+//        params.height = 960;
+//
+//        // 设置窗口类型为自由窗口
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+//            params.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+//        }
 
         // 隐藏标题栏
-        params.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
-        params.flags |= WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS;
+//        params.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
+//        params.flags |= WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS;
+
+//        getWindow().setAttributes(params);
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int width = displayMetrics.widthPixels; // 屏幕宽度的80%
+        int height = displayMetrics.heightPixels; // 屏幕高度的60%
+
+        View rootView = findViewById(android.R.id.content);
+        float x = rootView.getScaleX();
+        float y = rootView.getScaleY();
+
+        float xx = rootView.getPivotX();
+        float yy = rootView.getPivotY();
+
+        WindowManager.LayoutParams params = getWindow().getAttributes();
+//        params.width = width ;
+//        params.height = height ;
+//        getWindow().setAttributes(params);
+
+
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+
+        LogTool.w("content width " + params.width + " ,content height " + params.height);
+        LogTool.w("windows width " + width + " ,windows height " + height);
+        LogTool.w(" widthPixels " + metrics.widthPixels + " , heightPixels " + metrics.heightPixels);//500 1000
+        rootView.setScaleX(rootView.getScaleY());
+        rootView.setScaleY(rootView.getScaleX());
+
+
+        params.width = 412;
+        params.height = 713;
+
+        metrics.widthPixels = params.width;
+        metrics.heightPixels = 713;
+        metrics.density = metrics.widthPixels / 360f;
+        metrics.densityDpi = (int) (metrics.density * 160);
+        getResources().updateConfiguration(null, metrics);
+
 
         getWindow().setAttributes(params);
+//        getWindow().setLayout(540, 960);
+        LogTool.w("windows metrics.heightPixels " + metrics.heightPixels + " ,heightPixels " + getResources().getDisplayMetrics().heightPixels);
+        if (metrics.heightPixels < getResources().getDisplayMetrics().heightPixels) {
+            LogTool.w("分屏模式开启");
+        }
+
     }
+
+
+    // 检查设备是否支持分屏（API 24+）
+    public boolean isSplitScreenSupported() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return getPackageManager().hasSystemFeature(PackageManager.FEATURE_FREEFORM_WINDOW_MANAGEMENT)
+                    || getPackageManager().hasSystemFeature(PackageManager.FEATURE_ACTIVITIES_ON_SECONDARY_DISPLAYS);
+        }
+        return false;
+    }
+
+    private String getLaunchSource() {
+        // 方法1: getReferrer() (API 22+)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+            Uri referrer = getReferrer();
+            if (referrer != null) {
+                return referrer.getHost();
+            }
+        }
+
+        // 方法2: Intent extras
+        Uri referrerUri = getIntent().getParcelableExtra(Intent.EXTRA_REFERRER);
+        if (referrerUri != null) {
+            return referrerUri.getHost();
+        }
+
+        String referrerName = getIntent().getStringExtra("android.intent.extra.REFERRER_NAME");
+        if (referrerName != null) {
+            return referrerName;
+        }
+
+        // 方法3: 其他方法或返回默认值
+        return "unknown";
+    }
+
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,7 +225,31 @@ public class MainActivity extends AppCompatActivity {
         context = this;
         long lastTime = System.currentTimeMillis();
         setTitle("bella");
-        LogTool.w("bellaTest", "onCreate start");
+
+
+
+        // 获取当前 DisplayMetrics
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+
+        // 强制设置为目标逻辑分辨率（例如 800x600）
+        metrics.widthPixels = 1080;    // 逻辑宽度
+        metrics.heightPixels = 1920;   // 逻辑高度
+        metrics.density = metrics.widthPixels / 360f; // 基准宽度 360dp
+        metrics.densityDpi = (int) (metrics.density * 160); // 计算DPI
+
+        // 更新配置
+        getResources().updateConfiguration(null, metrics);
+
+        // 代码中
+        ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> tasks = am.getRunningTasks(1);
+        if (!tasks.isEmpty()) {
+            ComponentName callingActivity = tasks.get(0).topActivity;
+            String callingPackage = callingActivity.getPackageName();
+            Log.w("bellaTest", "上一个应用包名: " + callingPackage);
+        }
+
+        LogTool.w("bellaTest", "onCreate start  " + getLaunchSource());
         EventBus.getDefault().register(this);
         requestWindowFeature(Window.FEATURE_ACTION_BAR); // 或 FEATURE_CUSTOM_TITLE
 
@@ -325,9 +443,9 @@ public class MainActivity extends AppCompatActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             if (!Environment.isExternalStorageManager()) {
-                Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                intent.setData(Uri.parse("package:" + getPackageName()));
-                startActivity(intent);
+                Intent intent1 = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                intent1.setData(Uri.parse("package:" + getPackageName()));
+                startActivity(intent1);
             }
         }
 
@@ -374,8 +492,12 @@ public class MainActivity extends AppCompatActivity {
 //        }
 
         long curTime = System.currentTimeMillis();
-        LogTool.w("subTime "+ (curTime -  lastTime));
-        WindowContainerTransaction wct ;
+        LogTool.w("subTime " + (curTime - lastTime));
+        WindowContainerTransaction wct;
+
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        Activity currentActivity;
 
     }
 
@@ -443,7 +565,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onMultiWindowModeChanged(boolean isInMultiWindowMode) {
+        super.onMultiWindowModeChanged(isInMultiWindowMode);
+
+        LogTool.w("onMultiWindowModeChanged................. "+isInMultiWindowMode);
+    }
+
     private void initView() {
+
 
         View viewParent = LayoutInflater.from(this).inflate(R.layout.popup_layout, null);
         popupWindow = new NewOptionsPopupWindow(viewParent, WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT, this);
@@ -474,17 +604,41 @@ public class MainActivity extends AppCompatActivity {
         test1.setBackgroundColor(Color.RED);
         test1.setVisibility(View.VISIBLE);
         test1.setOnClickListener(view -> {
-            startActivity(new Intent(context, LibpagDemoActivity.class));
+//            startActivity(new Intent(context, LibpagDemoActivity.class));
+
+            Intent intent1 = new Intent(this, LibpagDemoActivity.class);
+            intent1.addFlags(Intent.FLAG_ACTIVITY_LAUNCH_ADJACENT);
+//            Intent intent2 = getPackageManager().getLaunchIntentForPackage("com.android.chrome");
+            Intent intent2 = new Intent(this, EglTestActivity.class);
+            intent2.addFlags(Intent.FLAG_ACTIVITY_LAUNCH_ADJACENT);
+            startActivities(new Intent[]{intent1, intent2});
+
+//            ActivityOptions options = ActivityOptions.makeBasic();
+//            options.setLaunchDisplayId(Display.DEFAULT_DISPLAY); // 在主屏幕显示
+//            options.setSplitScreenCreateMode(1);
+//
+//            Intent intent = new Intent(this, LibpagDemoActivity.class);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_LAUNCH_ADJACENT);
+//            startActivity(intent, options.toBundle());
+
         });
 
 
         TextView test2 = findViewById(R.id.test2);
         test2.setText("EGL测试");
         test2.setOnClickListener(view -> {
-            startActivity(new Intent(context, EglTestActivity.class));
+//            startActivity(new Intent(context, EglTestActivity.class));
 
+            // Sharing an image file
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            shareIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            shareIntent.addCategory(Intent.CATEGORY_DEFAULT);
+            shareIntent.putExtra(Intent.EXTRA_STREAM, "content://com.android.externalstorage.documents/document/primary%3ADownload%2Fzz.dps");
+
+            startActivity(Intent.createChooser(shareIntent, "Share image via"));
         });
-
 
 
         TextView test3 = findViewById(R.id.test3);
@@ -782,7 +936,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
         TextView test15 = findViewById(R.id.test15);
         test15.setText("应用列表");
         test15.setOnClickListener(v -> {
@@ -802,11 +955,37 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(context, SplitScreenMainActivity.class));
         });
 
+        DividerItemDecoration divider = new DividerItemDecoration(
+                this, // Context
+                DividerItemDecoration.HORIZONTAL // 分隔线的方向
+        );
+
+        // 设置分隔线的高度（1dp 转换为 px）
+//        divider.setDrawable(ContextCompat.getDrawable(this, R.drawable.divider));
+
+        // 将分隔线添加到 RecyclerView
+//        recyclerView.addItemDecoration(divider);
 
         TextView test18 = findViewById(R.id.test18);
         test18.setText("Preference测试");
         test18.setOnClickListener(v -> {
             startActivity(new Intent(context, PreferenceTestActivity.class));
+        });
+
+        TextView test19 = findViewById(R.id.test19);
+
+        test19.setText("设置输入法");
+        test19.setOnClickListener(v -> {
+            //startActivity(new Intent(context, SettingsActivity.class));
+//            Intent intent = new Intent();
+//            ComponentName cn = ComponentName.unflattenFromString("com.ets100.secondary/.ui.main.MainActivity");
+            //            intent.setComponent(cn);
+
+            Intent intent = getPackageManager().getLaunchIntentForPackage("com.ets100.secondary");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
+
         });
 
     }
@@ -894,6 +1073,53 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        }
     }
+
+//    private class MyNetdUnsolicitedEventListener extends INetdUnsolicitedEventListener.Stub {
+//        @Override
+//        public void onInterfaceChanged(String ifName, boolean isActive) {
+//            Log.d(TAG, "Interface " + ifName + " changed, active: " + isActive);
+//            // 处理接口状态变化
+//        }
+//
+//        @Override
+//        public void onInterfaceAddressUpdated(String addr, String ifName, int flags, int scope) {
+//            Log.d(TAG, "Interface address updated: " + addr + " on " + ifName);
+//            // 处理接口地址更新
+//        }
+//
+//        @Override
+//        public void onInterfaceAddressRemoved(String addr, String ifName, int flags, int scope) {
+//            Log.d(TAG, "Interface address removed: " + addr + " from " + ifName);
+//            // 处理接口地址移除
+//        }
+//
+//        @Override
+//        public void onInterfaceAdded(String ifName) {
+//            Log.d(TAG, "Interface added: " + ifName);
+//            // 处理新接口添加
+//        }
+//
+//        @Override
+//        public void onInterfaceRemoved(String ifName) {
+//            Log.d(TAG, "Interface removed: " + ifName);
+//            // 处理接口移除
+//        }
+//
+//        // Android 14 新增方法
+//        @Override
+//        public void onQuotaLimitReached(String alertName, String ifName) {
+//            Log.d(TAG, "Quota limit reached for " + ifName + ", alert: " + alertName);
+//            // 处理配额限制达到
+//        }
+//
+//        @Override
+//        public void onInterfaceClassActivityChanged(boolean isActive, int timestamp, int uid,
+//                                                    int trafficClass) {
+//            Log.d(TAG, "Traffic class activity changed for UID " + uid +
+//                    ", class: " + trafficClass + ", active: " + isActive);
+//            // 处理流量类别活动变化
+//        }
+//    }
 
 
 }

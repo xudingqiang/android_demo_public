@@ -1,0 +1,87 @@
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp">
+
+    <PreferenceScreen
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <!-- See all apps -->
+        <SwitchPreferenceCompat
+            android:key="pref_key_switch"
+            android:title="开关设置"
+            android:order="-2"
+            android:icon="@drawable/ic_notifications"
+            android:summary="这是一个开关设置项" />
+
+
+
+        <EditTextPreference
+            android:key="pref_key_edit_text"
+            android:title="输入框设置"
+            android:order="-4"
+            android:layout="@layout/preference_rounded_corners"
+            app:icon="@drawable/ic_apps_test"
+            android:summary="输入一些文本" />
+
+        <ListPreference
+            android:key="pref_key_list"
+            android:title="列表选择"
+            android:summary="选择一个选项"
+            android:order="-1"
+            android:icon="@drawable/ic_settings_compatible"
+            android:entries="@array/list_preference_entries"
+            android:entryValues="@array/list_preference_values" />
+
+        <Preference
+            android:key="pref_key_about"
+            android:title="关于"
+            android:order="-3"
+            app:allowDividerAbove="true"
+            android:layout="@layout/preference_rounded_corners"
+            android:icon="@drawable/ic_settings_about_device"
+            android:summary="关于这个应用的信息" />
+
+
+        <PreferenceCategory
+
+            android:title="General Settings">
+            <Preference
+                android:key="example_preference1"
+                android:title="Example Preference11"
+                android:layout="@layout/preference_rounded_top_corners"
+                android:summary="This is an example preference" />
+
+            <Preference
+                android:key="example_preference2"
+                android:title="Example Preference22"
+                app:allowDividerAbove="true"
+                app:allowDividerBelow="true"
+                app:enableCopying="true"
+                android:layout="@layout/preference_square_corners"
+                android:summary="This is an example preference" />
+
+
+            <Preference
+                android:key="example_preference3"
+                android:title="Example Preference33"
+                android:visibility="gone"
+                app:isPreferenceVisible="false"
+                android:layout="@layout/preference_rounded_bottom_corners"
+                android:summary="This is an example preference" />
+        </PreferenceCategory>
+
+
+        <com.bella.android_demo_public.view.CustomPreference
+            android:key="example_preference4"
+            android:title="Example Preference44"
+            android:layout="@layout/preference_rounded_bottom_corners"
+            android:summary="This is an example preference" />
+    </PreferenceScreen>
+</androidx.cardview.widget.CardView>

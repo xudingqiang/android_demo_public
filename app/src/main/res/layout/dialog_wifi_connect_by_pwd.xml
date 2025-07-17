@@ -17,6 +17,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="330dp"
     android:layout_height="290dp"
+    android:background="@drawable/btn_grep_background_selector"
     android:orientation="vertical">
 
 
@@ -112,6 +113,7 @@
             android:layout_height="match_parent"
             android:background="#0d000000"
             android:completionHint=""
+            android:inputType="textPassword"
             android:paddingHorizontal="8dp"
             android:hint="@string/fde_input_hint"
             android:textSize="@dimen/fde_medium_text" />

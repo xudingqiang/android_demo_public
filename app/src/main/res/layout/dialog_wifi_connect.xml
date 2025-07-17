@@ -17,6 +17,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="330dp"
     android:layout_height="192dp"
+    android:background="#ffFFFFFF"
     android:orientation="vertical">
 
 
@@ -65,11 +66,24 @@
             android:layout_height="32dp"
             android:layout_marginRight="12dp"
             android:layout_toLeftOf="@id/txtConfirm"
-            android:background="#0f000000"
+            android:background="@drawable/btn_grep_background_selector"
             android:gravity="center"
             android:textColor="#d9000000"
             android:textSize="14sp"
             android:text="@string/fde_btn_cancel" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/txtForget"
+            android:layout_width="84dp"
+            android:layout_height="32dp"
+            android:layout_marginLeft="24dp"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/btn_grep_background_selector"
+            android:gravity="center"
+            android:visibility="gone"
+            android:textColor="#d9000000"
+            android:textSize="14sp"
+            android:text="@string/fde_forget" />
 
 
         <androidx.appcompat.widget.AppCompatButton
@@ -78,7 +92,7 @@
             android:layout_height="32dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="24dp"
-            android:background="#318BF3"
+            android:background="@drawable/btn_blue_background_selector"
             android:gravity="center"
             android:textSize="@dimen/fde_light_text"
             android:text="@string/fde_btn_confirm"

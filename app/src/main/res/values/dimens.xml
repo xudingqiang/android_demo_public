@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2009 The Android Open Source Project
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright (C) 2009 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -441,4 +440,5 @@
     <dimen name="fde_max_text">20sp</dimen>
     <dimen name="fde_large_text">18sp</dimen>
     <dimen name="fde_light_text">14sp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

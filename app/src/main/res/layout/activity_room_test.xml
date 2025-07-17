@@ -29,6 +29,7 @@
         android:id="@+id/test1"
         style="@style/textStyle"
         android:text="查询"
+        android:textSize="16sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -36,6 +37,7 @@
         android:id="@+id/test2"
         style="@style/textStyle"
         android:text="新增"
+        android:textSize="20sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
@@ -44,14 +46,14 @@
         style="@style/textStyle"
         android:text="修改"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="60dp"/>
 
     <TextView
         android:id="@+id/test4"
         style="@style/textStyle"
         android:text="删除"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="80dp"/>
 
 
     <TextView

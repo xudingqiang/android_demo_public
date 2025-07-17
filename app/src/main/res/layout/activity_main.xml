@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
+
     tools:context=".MainActivity">
 
 
@@ -14,7 +15,7 @@
         android:id="@+id/action_bar"
         android:background="#00ff00"
         app:title="333"
-
+        android:visibility="invisible"
         android:layout_width="match_parent"
         android:layout_height="46dp"/>
 
@@ -23,23 +24,37 @@
 
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     android:layout_width="wrap_content"
-
     android:layout_height="wrap_content">
 
-
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:paddingHorizontal="16dp"
+            android:visibility="gone"
+            
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+    </RelativeLayout>
 
     <Toolbar
         android:layout_width="match_parent"
         android:layout_height="44dp"
-
+        android:visibility="gone"
         android:tag="drag">
         <include layout="@layout/layout_settings_title_bar"/>
     </Toolbar>
 
 
     <Toolbar
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="44dp"
         android:tag="drag">
@@ -92,25 +107,30 @@
 
             </androidx.cardview.widget.CardView>
 
+
+
             <TextView
                 android:id="@+id/test1"
                 style="@style/textStyle"
                 android:textStyle="bold"
+                android:textSize="14sp"
+                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/test2"
                 style="@style/textStyle"
-                android:background="@drawable/custom_ripple_background"
+                android:textSize="16sp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="40dp" />
 
             <TextView
                 android:id="@+id/test3"
                 style="@style/textStyle"
+                android:textSize="18sp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="60dp" />
 
             <TextView
                 android:id="@+id/test4"
@@ -122,6 +142,7 @@
             <TextView
                 android:id="@+id/test5"
                 style="@style/textStyle"
+                android:fontFamily="@font/alibaba_puhui_55_regular_55_regular"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -129,6 +150,7 @@
             <TextView
                 android:id="@+id/test6"
                 style="@style/textStyle"
+                android:fontFamily="@font/alibaba_puhui_65_medium_65_medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -136,6 +158,7 @@
             <TextView
                 android:id="@+id/test7"
                 style="@style/textStyle"
+                android:fontFamily="@font/alibaba_puhui_55_regular_85_bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

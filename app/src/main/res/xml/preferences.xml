@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <SwitchPreferenceCompat
-        android:key="pref_key_switch"
-        android:title="开关设置"
-        android:order="-2"
-        android:icon="@drawable/ic_notifications"
-        android:summary="这是一个开关设置项" />
+
+
+
+        <!-- Placeholder for a list of recent apps -->
+
+        <!-- See all apps -->
+        <SwitchPreferenceCompat
+            android:key="pref_key_switch"
+            android:title="开关设置"
+            android:order="-2"
+            android:icon="@drawable/ic_notifications"
+            android:summary="这是一个开关设置项" />
+
+
 
     <EditTextPreference
         android:key="pref_key_edit_text"
         android:title="输入框设置"
         android:order="-4"
+        app:allowDividerBelow="true"
+        app:allowDividerAbove="true"
+        android:layout="@layout/preference_rounded_corners"
         app:icon="@drawable/ic_apps_test"
         android:summary="输入一些文本" />
 
@@ -28,6 +39,55 @@
         android:key="pref_key_about"
         android:title="关于"
         android:order="-3"
+        app:allowDividerAbove="true"
+        android:layout="@layout/preference_rounded_corners"
         android:icon="@drawable/ic_settings_about_device"
         android:summary="关于这个应用的信息" />
+
+
+    <PreferenceCategory
+
+        android:title="General Settings">
+        <Preference
+            android:key="example_preference1"
+            android:title="Example Preference11"
+            android:layout="@layout/preference_rounded_top_corners"
+            android:summary="This is an example preference" />
+
+        <Preference
+            android:key="example_preference2"
+            android:title="Example Preference22"
+            app:allowDividerAbove="true"
+            app:allowDividerBelow="true"
+            app:enableCopying="true"
+            android:layout="@layout/preference_square_corners"
+            android:summary="This is an example preference" />
+
+
+        <Preference
+            android:key="example_preference3"
+            android:title="Example Preference33"
+            android:visibility="gone"
+            app:isPreferenceVisible="false"
+            android:layout="@layout/preference_rounded_bottom_corners"
+            android:summary="This is an example preference" />
+    </PreferenceCategory>
+
+
+    <com.bella.android_demo_public.view.CustomPreference
+        android:key="example_preference4"
+        android:title="Example Preference44"
+        android:layout="@layout/preference_rounded_bottom_corners"
+        android:summary="This is an example preference" />
+
+    <DialogPreference
+        android:key="example_dialog_preference"
+        android:title="示例对话框偏好设置"
+        android:summary="点击进入对话框"
+        android:dialogTitle="对话框标题"
+        android:dialogMessage="这是对话框中的消息内容"
+        android:positiveButtonText="确定"
+        android:negativeButtonText="取消" />
+
+
 </PreferenceScreen>

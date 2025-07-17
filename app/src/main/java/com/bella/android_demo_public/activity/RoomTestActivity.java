@@ -1,6 +1,7 @@
 package com.bella.android_demo_public.activity;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -34,6 +35,8 @@ public class RoomTestActivity extends AppCompatActivity implements View.OnClickL
             if(msg.what == 1){
                 String list = msg.obj.toString();
                 test.setText(list);
+//                PackageInfo packageInfo = getPackageManager().getPackageInfo(packageName, 0);
+
             }
         }
     };
