@@ -139,7 +139,7 @@ class CompatibleListAdapter(
         popupView.findViewById<TextView>(R.id.txtContent)?.text = content;
         popupWindow.isOutsideTouchable = true
 //        popupWindow.showAsDropDown(anchorView,20,-48)
-        popupWindow.showAsDropDown(anchorView)
+        popupWindow.showAsDropDown(anchorView , 16 ,-40)
 
 //        val anchorLocation = IntArray(2)
 //        anchorView.getLocationOnScreen(anchorLocation)

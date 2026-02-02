@@ -225,7 +225,19 @@ object CompUtils {
                 val jsonObject = jsonArray.getJSONObject(i).toString()
                 stringArray[i] = jsonObject
             }
-            return stringArray
+
+            val list = mutableListOf<String>()
+            for (i in 0 until jsonArray.length()) {
+                val json = jsonArray.getJSONObject(i).toString();
+                if (json.contains("width")) {
+                    val size :Size = jsonToSize(json);
+                    list.add("${size.width ?: 0}x${size.height ?: 0}");
+                }else{
+                    list.add(json)
+                }
+            }
+            list.add("关闭")
+            return list.toTypedArray()
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
         }
@@ -246,6 +258,29 @@ object CompUtils {
             e.printStackTrace()
         }
         return null
+    }
+
+    data class Size(
+        val width: Int,
+        val height: Int
+    )
+
+    fun jsonToSize(json: String): Size {
+        val obj = JSONObject(json)
+        return Size(
+            width = obj.getString("width").toInt(),
+            height = obj.getString("height").toInt()
+        )
+    }
+
+    fun sizeStringToJson(size: String): String {
+        val parts = size.lowercase().split("x")
+        require(parts.size == 2) { "size format must be WxH" }
+
+        return JSONObject().apply {
+            put("width", parts[0])
+            put("height", parts[1])
+        }.toString()
     }
 
 }

@@ -62,7 +62,7 @@ class PreferenceTestActivity : AppCompatActivity() {
         setContentView(R.layout.activity_preference_test)
 
 //        setContentView(R.layout.layout_net_work)
-//        context = this;
+        context = this;
 //        txtWifi = findViewById(R.id.txtWifi)
 //        txtWired = findViewById(R.id.txtWired)
 //        txtAddWifi = findViewById(R.id.txtAddWifi)

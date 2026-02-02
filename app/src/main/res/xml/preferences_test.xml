@@ -12,6 +12,7 @@
         android:layout_height="wrap_content">
 
 
+
         <!-- See all apps -->
         <SwitchPreferenceCompat
             android:key="pref_key_switch"
@@ -54,32 +55,36 @@
             android:title="General Settings">
             <Preference
                 android:key="example_preference1"
-                android:title="Example Preference11"
-                android:layout="@layout/preference_rounded_top_corners"
+                android:title="Example 1"
+                android:layout="@layout/preference_item_corners"
                 android:summary="This is an example preference" />
 
             <Preference
                 android:key="example_preference2"
-                android:title="Example Preference22"
+                android:title="Example 2"
                 app:allowDividerAbove="true"
                 app:allowDividerBelow="true"
                 app:enableCopying="true"
-                android:layout="@layout/preference_square_corners"
+                android:layout="@layout/preference_item_corners"
                 android:summary="This is an example preference" />
 
 
             <Preference
                 android:key="example_preference3"
-                android:title="Example Preference33"
+                android:title="Example 3"
                 android:visibility="gone"
-                app:isPreferenceVisible="false"
-                android:layout="@layout/preference_rounded_bottom_corners"
+                android:layout="@layout/preference_item_corners"
                 android:summary="This is an example preference" />
         </PreferenceCategory>
 
 
+
+
+
         <com.bella.android_demo_public.view.CustomPreference
             android:key="example_preference4"
+            app:isPreferenceVisible="false"
+
             android:title="Example Preference44"
             android:layout="@layout/preference_rounded_bottom_corners"
             android:summary="This is an example preference" />

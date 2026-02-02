@@ -1,12 +1,14 @@
 package com.bella.android_demo_public
 
 import android.app.Application
-import com.squareup.leakcanary.core.BuildConfig
 import leakcanary.LeakCanary
 import shark.AndroidReferenceMatchers
-import shark.IgnoredReferenceMatcher
 
 class MyApp : Application() {
+
+
+
+
     override fun onCreate() {
         super.onCreate()
         val config = LeakCanary.config.copy(
@@ -19,5 +21,12 @@ class MyApp : Application() {
                     ) // 添加自定义的引用匹配器
         )
         LeakCanary.config = config
+    }
+
+    companion object {
+        const val APPID: String = "5d1329a5"
+        const val APIKEY: String = "4c02ca28595fa5c15070bdb9a55e98b5"
+        const val APISECRET: String = "68c81c30bb454ece0db99769c43b5837"
+        const val WORK_DIR: String = "/sdcard/iflytek/"
     }
 }

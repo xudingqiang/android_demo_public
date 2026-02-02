@@ -66,4 +66,5 @@ object AppUtils {
         drawable.draw(canvas)
         return bitmap
     }
+
 }

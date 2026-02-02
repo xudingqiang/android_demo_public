@@ -5,7 +5,7 @@
         <item name="android:layout_marginHorizontal">16dp</item>
         <item name="android:layout_marginTop">16dp</item>
         <item name="android:padding">8dp</item>
-        <item name="android:background">#11aaff</item>
+        <item name="android:background">@drawable/button_bg</item>
     </style>
 
     <style name="TransparentActivityTheme" parent="Theme.AppCompat.NoActionBar">
@@ -61,6 +61,7 @@
         <item name="android:layout_height">32dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:paddingLeft">14dp</item>
+        <item name="android:background">@drawable/button_bg</item>
     </style>
 
     <style name="popWindowLineStyle">
@@ -81,6 +82,85 @@
     </style>
 
 
+    <style name="green_btn_style" parent="@style/Widget.AppCompat.Button.Borderless">
+        <item name="android:textSize">@dimen/big_text_size</item>
+        <item name="android:textColor">#fff</item>
 
+        <item name="android:background">@drawable/selector_btn_blue</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_marginLeft">48dp</item>
+        <item name="android:layout_marginRight">48dp</item>
+    </style>
+
+
+    <style name="RoundedAlertDialog"  parent="Theme.MaterialComponents.DayNight.Dialog">
+        <item name="dialogCornerRadius">8dp</item>
+        <item name="android:background">#f2f2f2</item>
+
+    </style>
+
+    <style name="item_child_title" >
+        <item name="android:fontFamily">@font/alibaba_puhui_65_medium_65_medium</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#ff1A1A1A</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="item_child_summary" >
+        <item name="android:fontFamily">@font/alibaba_puhui_55_regular_55_regular</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#991A1A1A</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="item_child_value" >
+        <item name="android:fontFamily">@font/alibaba_puhui_65_medium_65_medium</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#ff333333</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+
+    <!-- res/values/styles.xml -->
+    <style name="MySwitchCompatStyle" parent="Widget.AppCompat.CompoundButton.Switch">
+        <!-- 轨道 -->
+        <item name="track">@color/white</item>
+        <item name="thumbColor">@color/blue</item>
+        <!-- 滑块 -->
+        <!-- 最小宽度 -->
+        <item name="switchMinWidth">48dp</item>
+        <!-- thumb 到 track 的间距 -->
+        <item name="thumbTextPadding">0dp</item>
+        <!-- 是否显示文字 -->
+        <item name="showText">false</item>
+        <!-- 内边距 -->
+        <item name="android:padding">0dp</item>
+    </style>
+
+    <style name="Theme.Recorder.AlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="android:colorBackground">?attr/colorSurface</item>
+        <item name="dialogCornerRadius">16dp</item>
+    </style>
+
+    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+        <item name="android:windowLightNavigationBar">?attr/isLightTheme</item>
+        <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
+        <item name="materialAlertDialogTheme">@style/Theme.Recorder.AlertDialog</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="alertDialogTheme">@style/Theme.Recorder.AlertDialog</item>
+
+    </style>
+
+    <style name="AppTheme.DialogActivity">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@null</item>
+
+    </style>
 
 </resources>

@@ -4,7 +4,10 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.AnimationDrawable
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -59,19 +62,38 @@ class TestKotlinActivity : AppCompatActivity() {
         btnTest3 = findViewById(R.id.btnTest3)
         imgView = findViewById(R.id.imageView)
 
+
+        val imageUri = intent.data
+
+
         val redId = resources.getIdentifier("status_bar_height","dimen","android");
         val height = resources.getDimensionPixelSize(redId)
 
-        LogTool.w("height "+height)
-        imgView?.setBackgroundResource(R.drawable.frame_animation)
+        val wi = "am-guest:44::";
+        val arrInfo = wi.split(":".toRegex()).dropLastWhile { it.isEmpty() }
+            .toTypedArray()
+        LogTool.w("arrInfo "+arrInfo.size)
+//        imgView?.setBackgroundResource(R.drawable.frame_animation)
         animationDrawable = imgView!!.background as AnimationDrawable
 
         btnTest1?.setOnClickListener({
-            val intent = Intent()
-            val cn: ComponentName? = ComponentName.unflattenFromString("com.android.settings/.Settings\$PrivacyDashboardActivity")
-            intent.component = cn;
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            startActivity(intent)
+//            val intent = Intent()
+//            val cn: ComponentName? = ComponentName.unflattenFromString("com.android.settings/.Settings\$PrivacyDashboardActivity")
+//            intent.component = cn;
+//            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+//            startActivity(intent)
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val intent = Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES)
+                // 传入当前应用的包名（必须，否则无法定位到具体应用的权限）
+                intent.data = Uri.parse("package:${packageName}")
+                startActivity(intent)
+            } else {
+                // 旧版本（Android 7.0及以下）：打开应用详情页面（需用户手动操作）
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                intent.data = Uri.parse("package:${packageName}")
+                startActivity(intent)
+            }
         })
 
         btnTest2?.setOnClickListener({

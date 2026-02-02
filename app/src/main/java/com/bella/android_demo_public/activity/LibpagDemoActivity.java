@@ -26,6 +26,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bella.android_demo_public.R;
+import com.bella.android_demo_public.utils.LogTool;
 import com.bella.android_demo_public.utils.Utils;
 import com.bella.android_demo_public.view.BackgroundView;
 
@@ -38,6 +39,8 @@ import org.libpag.PAGView;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Iterator;
+import java.util.Set;
 
 public class LibpagDemoActivity extends AppCompatActivity  implements View.OnClickListener, PAGView.PAGViewListener {
 
@@ -56,7 +59,25 @@ public class LibpagDemoActivity extends AppCompatActivity  implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+//        Set<String> categories = getIntent().getCategories();
+//        if (categories != null) {
+//            Iterator<String> iterator = categories.iterator();
+//            while (iterator.hasNext()) {
+//                String category = iterator.next();
+//                LogTool.w( "Category: " + category);
+//                // 处理每个 category
+////                handleCategory(category);
+//            }
+//        } else {
+//            LogTool.w( "No categories found");
+//        }
+
+//        boolean isMaximized = Utils.isFreeformMaximized(this);
+//        boolean isFullscreenMode = Utils.isFullscreenMode(this);
+//        LogTool.w( "getAction: "+getIntent().getAction() +",isMaximized "+isMaximized + ",isFullscreenMode: "+isFullscreenMode);
+//
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_libpag_demo);
 
         containerView = findViewById(R.id.container_view);
@@ -168,6 +189,12 @@ public class LibpagDemoActivity extends AppCompatActivity  implements View.OnCli
         if (pagImageViewGroup != null) {
             pagImageViewGroup.removeAllViews();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
     }
 
     private void activatedView(int viewId) {

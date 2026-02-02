@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.preference.Preference;
+import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
@@ -79,6 +80,20 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 }
             });
         }
+
+        PreferenceCategory testList = findPreference("testList");
+        Preference preference = new Preference(getActivity());
+        preference.setTitle("test1");
+        preference.setSummary("bella1");
+        preference.setLayoutResource(R.layout.preference_item_corners);
+        testList.addPreference(preference);
+
+        preference = new Preference(getActivity());
+        preference.setTitle("test2");
+        preference.setSummary("bella2");
+        preference.setLayoutResource(R.layout.preference_item_corners);
+        testList.addPreference(preference);
+
     }
 
 }

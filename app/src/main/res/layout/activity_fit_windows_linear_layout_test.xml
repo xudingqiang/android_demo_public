@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.FitWindowsLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/purple_200"
+    tools:context=".MainActivity">
+
+    <!-- 状态栏占位视图 -->
+    <View
+        android:id="@+id/status_bar_placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/teal_700"
+        android:visibility="gone"/>
+
+    <!-- 应用栏 -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/purple_500"
+        app:title="FitWindowsLinearLayout Demo"
+        app:titleTextColor="@android:color/white"/>
+
+    <!-- 内容区域 -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="FitWindowsLinearLayout 演示"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="这个布局会自动处理系统窗口插入区域，确保内容不被状态栏和导航栏遮挡。"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:layout_marginBottom="24dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="当前插入区域信息："
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:id="@+id/tv_insets_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="计算中..."
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:layout_marginBottom="24dp"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="控制选项"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="16dp"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_toggle_immersive"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="切换沉浸式模式"
+                        android:layout_marginBottom="8dp"
+                        style="@style/Widget.Material3.Button.OutlinedButton"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_show_system_bars"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="显示系统栏"
+                        android:layout_marginBottom="8dp"
+                        style="@style/Widget.Material3.Button.OutlinedButton"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_hide_system_bars"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="隐藏系统栏"
+                        style="@style/Widget.Material3.Button.OutlinedButton"/>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- 示例内容 -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="滚动查看更多内容..."
+                android:textSize="14sp"
+                android:textColor="@color/app_gray"
+                android:layout_marginTop="16dp"/>
+
+            <View android:layout_height="100dp" android:layout_width="match_parent"/>
+            <View android:layout_height="100dp" android:layout_width="match_parent" android:background="@color/app_gray"/>
+            <View android:layout_height="100dp" android:layout_width="match_parent" android:background="@color/app_black_light"/>
+            <View android:layout_height="100dp" android:layout_width="match_parent" android:background="@color/app_gray_dark"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- 底部导航栏占位视图 -->
+    <View
+        android:id="@+id/navigation_bar_placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/teal_700"
+        android:visibility="gone"/>
+
+</androidx.appcompat.widget.FitWindowsLinearLayout>

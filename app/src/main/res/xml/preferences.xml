@@ -80,14 +80,13 @@
         android:layout="@layout/preference_rounded_bottom_corners"
         android:summary="This is an example preference" />
 
-    <DialogPreference
-        android:key="example_dialog_preference"
-        android:title="示例对话框偏好设置"
-        android:summary="点击进入对话框"
-        android:dialogTitle="对话框标题"
-        android:dialogMessage="这是对话框中的消息内容"
-        android:positiveButtonText="确定"
-        android:negativeButtonText="取消" />
+    <PreferenceCategory
+        android:key="testList"
+        >
+
+
+    </PreferenceCategory>
+
 
 
 </PreferenceScreen>

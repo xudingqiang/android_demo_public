@@ -2,10 +2,10 @@ package com.bella.android_demo_public.view
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import androidx.preference.PreferenceViewHolder
 import androidx.preference.SwitchPreferenceCompat
 import com.bella.android_demo_public.R
-
 
 class CustomSwitchPreferenceCompat(context: Context, attrs: AttributeSet) :
     SwitchPreferenceCompat(context) {
@@ -16,5 +16,14 @@ class CustomSwitchPreferenceCompat(context: Context, attrs: AttributeSet) :
 
     override fun onBindViewHolder(holder: PreferenceViewHolder) {
         super.onBindViewHolder(holder)
+
+
+
+        val switchView = holder.findViewById(androidx.preference.R.id.switchWidget)
+        if (switchView != null) {
+            val rootView = switchView.rootView
+            rootView.setFilterTouchesWhenObscured(true);
+        }
+
     }
 }

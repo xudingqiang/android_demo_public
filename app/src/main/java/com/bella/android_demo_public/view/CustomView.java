@@ -16,6 +16,7 @@ package com.bella.android_demo_public.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,6 +33,7 @@ public class CustomView extends View {
     public CustomView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         Log.d(TAG, "new instance");
+
     }
 
     @Override

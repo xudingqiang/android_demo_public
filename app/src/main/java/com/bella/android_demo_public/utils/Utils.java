@@ -1,5 +1,6 @@
 package com.bella.android_demo_public.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -15,15 +16,26 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Picture;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PictureDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
+import android.os.SystemProperties;
 import android.telephony.TelephonyManager;
 import android.util.Xml;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.WindowMetrics;
 import android.widget.ImageView;
 
 import androidx.core.content.FileProvider;
@@ -42,15 +54,21 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xmlpull.v1.XmlPullParser;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -76,6 +94,42 @@ public class Utils {
         return (int) (dpValue * scale + 0.5f);
     }
 
+    public static boolean isFreeformMaximized(Activity activity) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            // 仅支持 Android 11 (API 30) 及以上
+            return false;
+        }
+
+        WindowManager windowManager = activity.getWindowManager();
+
+        // 获取当前窗口边界
+        WindowMetrics currentWindowMetrics = windowManager.getCurrentWindowMetrics();
+        Rect currentBounds = currentWindowMetrics.getBounds();
+
+        // 获取最大窗口边界
+        WindowMetrics maxWindowMetrics = windowManager.getMaximumWindowMetrics();
+        Rect maxBounds = maxWindowMetrics.getBounds();
+
+        // 比较边界是否相等（考虑导航栏/状态栏差异）
+        return currentBounds.equals(maxBounds);
+    }
+
+
+    // 判断是否全屏（沉浸模式）
+    public static boolean isFullscreenMode(Activity activity) {
+        Window window = activity.getWindow();
+        View decorView = window.getDecorView();
+
+        // 方法1：检查系统UI可见性标志
+        int uiVisibility = decorView.getSystemUiVisibility();
+        boolean hideSystemBars = (uiVisibility & View.SYSTEM_UI_FLAG_HIDE_NAVIGATION) != 0 &&
+                (uiVisibility & View.SYSTEM_UI_FLAG_FULLSCREEN) != 0;
+
+        // 方法2：检查窗口标志（双重确认）
+        boolean windowFullscreen = (window.getAttributes().flags & WindowManager.LayoutParams.FLAG_FULLSCREEN) != 0;
+
+        return hideSystemBars && windowFullscreen;
+    }
 
     /**
      *
@@ -631,6 +685,185 @@ public class Utils {
             return -1;
         }
         return 0;
+    }
+
+
+    public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, float roundPx) {
+        // 1. 创建一个新的 Bitmap 作为输出
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        // 2. 定义画笔和矩形区域
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        final RectF rectF = new RectF(rect);
+
+        // 3. 开启抗锯齿
+        paint.setAntiAlias(true);
+
+        // 4. 先在 Canvas 上画一个圆角矩形 (作为蒙版)
+        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+
+        // 5. 设置混合模式为 SRC_IN (只显示源图像在目标图形内的部分)
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+
+        // 6. 将原始 Bitmap 画到圆角蒙版上
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+        long timestamp = System.currentTimeMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        String formattedTime = sdf.format(new Date(timestamp));
+        return output;
+    }
+
+
+    public static void triggerSystemMediaScan(Context context) {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+//        File externalDir = Environment.getExternalStorageDirectory();
+        File externalDir = new File(Environment.getExternalStorageDirectory() + "/Download");
+        LogTool.w("getAbsolutePath: " + externalDir.getAbsolutePath());
+        Uri contentUri = Uri.fromFile(externalDir);
+        LogTool.w("contentUri: " + contentUri.getPath());
+        mediaScanIntent.setData(contentUri);
+        context.sendBroadcast(mediaScanIntent);
+
+    }
+
+    public static float getRatioHeight(){
+        String h = SystemProperties.get("waydroid.display_height");
+        BigDecimal bdResult = new BigDecimal(h).divide(new BigDecimal(1080), 3, RoundingMode.HALF_UP);
+        return bdResult.floatValue();
+    }
+
+
+    /**
+     * 通过 InputStream 读取文件头判断 MIME 类型
+     * @param inputStream 输入流（不会被关闭）
+     * @return MIME 类型
+     */
+    public static String getMimeTypeFromStream(InputStream inputStream) throws IOException {
+        // 标记流位置，以便读取后重置
+        if (!inputStream.markSupported()) {
+            // 如果不支持标记，则包装为 BufferedInputStream
+            inputStream = new BufferedInputStream(inputStream);
+        }
+
+        // 标记当前位置，最多读取 64 字节
+        inputStream.mark(64);
+
+        try {
+            byte[] header = new byte[64];
+            int bytesRead = inputStream.read(header, 0, 64);
+
+            // 重置流到标记位置
+            inputStream.reset();
+
+            if (bytesRead < 2) {
+                return "application/octet-stream"; // 默认类型
+            }
+
+            return detectMimeType(header, bytesRead);
+
+        } catch (IOException e) {
+            inputStream.reset();
+            return "application/octet-stream";
+        }
+    }
+
+
+
+
+    /**
+     * 根据文件头字节检测 MIME 类型
+     */
+    private static String detectMimeType(byte[] header, int length) {
+        // 图片类型
+        if (isJPEG(header)) return "image/jpeg";
+        if (isPNG(header)) return "image/png";
+//        if (isGIF(header)) return "image/gif";
+//        if (isBMP(header)) return "image/bmp";
+//        if (isWebP(header)) return "image/webp";
+
+        // 视频类型
+//        if (isMP4(header)) return "video/mp4";
+//        if (isAVI(header)) return "video/x-msvideo";
+//        if (isMOV(header)) return "video/quicktime";
+
+        // 音频类型
+//        if (isMP3(header)) return "audio/mpeg";
+//        if (isWAV(header)) return "audio/wav";
+//        if (isFLAC(header)) return "audio/flac";
+
+        // 文档类型
+        if (isPDF(header)) return "application/pdf";
+        if (isZIP(header)) return "application/zip";
+        if (isDOCX(header)) return "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+//        if (isXLSX(header)) return "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+        // 文本类型
+        if (isText(header)) return "text/plain";
+
+        return "application/octet-stream"; // 默认
+    }
+
+    // 各种文件类型的魔数检测方法
+    private static boolean isJPEG(byte[] header) {
+        return header[0] == (byte) 0xFF && header[1] == (byte) 0xD8;
+    }
+
+    private static boolean isPNG(byte[] header) {
+        return header[0] == (byte) 0x89 &&
+                header[1] == (byte) 0x50 &&
+                header[2] == (byte) 0x4E &&
+                header[3] == (byte) 0x47;
+    }
+
+    private static boolean isPDF(byte[] header) {
+        // PDF 文件以 "%PDF" 开头
+        return header[0] == (byte) 0x25 &&
+                header[1] == (byte) 0x50 &&
+                header[2] == (byte) 0x44 &&
+                header[3] == (byte) 0x46;
+    }
+
+    private static boolean isZIP(byte[] header) {
+        // ZIP 文件以 "PK" 开头
+        return header[0] == (byte) 0x50 &&
+                header[1] == (byte) 0x4B;
+    }
+
+    private static boolean isMP4(byte[] header) {
+        // MP4 文件在特定位置有 "ftyp" 字样
+        if (header.length >= 12) {
+            return header[4] == 'f' && header[5] == 't' &&
+                    header[6] == 'y' && header[7] == 'p';
+        }
+        return false;
+    }
+
+    private static boolean isText(byte[] header) {
+        // 简单的文本文件检测：检查前几个字节是否都是可打印ASCII字符
+        for (int i = 0; i < Math.min(header.length, 100); i++) {
+            if (header[i] == 0) return false; // 二进制文件通常包含0字节
+            if (header[i] < 9 || (header[i] > 13 && header[i] < 32)) {
+                return false; // 非打印字符
+            }
+        }
+        return true;
+    }
+
+    private static boolean isDOCX(byte[] header) {
+        // DOCX 实际上是 ZIP 文件，但通常包含特定结构
+        // 这里简单检查是否是 ZIP 并且包含特定文件
+        return isZIP(header);
+    }
+
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null) {
+            NetworkCapabilities capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.getActiveNetwork());
+            return capabilities != null && (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) || capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) || capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET));
+        }
+        return false;
     }
 
 }

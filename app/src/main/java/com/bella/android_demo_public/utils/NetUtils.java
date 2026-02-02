@@ -40,6 +40,7 @@ public class NetUtils {
             connection.setConnectTimeout(3000);
             connection.connect();
             int code = connection.getResponseCode();
+
             String res = "";
             if (code == 200) { // 
                 // 

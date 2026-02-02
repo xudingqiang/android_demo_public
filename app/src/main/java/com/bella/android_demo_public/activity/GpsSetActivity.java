@@ -101,14 +101,14 @@ public class GpsSetActivity extends AppCompatActivity {
                     txtCountry.setText(listCountrys.get(pos));
                     if (listProvinces != null) {
                         Log.w(TAG, "bella Provinces pos  = " + pos + ", indexProvince: "+ indexProvince);
-                        Log.w(TAG, "bella listProvinces  = " + listProvinces.toString());
+//                        Log.w(TAG, "bella listProvinces  = " + listProvinces.toString());
 
 //                        if (pos != indexProvince) {
 //                            txtProvince.setText(listProvinces.get(indexProvince));
 //                        }
                         indexCountry = pos;
                         adapterProvince.notifyDataSetChanged();
-                        queryCitysByProvince(listProvinces.get(0), 0);
+//                        queryCitysByProvince(listProvinces.get(0), 0);
                     } else {
                         listProvinces = new ArrayList<>();
                         adapterProvince.notifyDataSetChanged();

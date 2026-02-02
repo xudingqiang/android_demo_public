@@ -45,6 +45,11 @@ class NewOptionsPopupWindow(
 
 
 
+        contentView.findViewById<TextView>(R.id.text_refresh)?.setOnClickListener({
+
+            dismiss()
+        })
+
         contentView.findViewById<TextView>(R.id.text_change_wallpaper)?.setOnClickListener({
 
             dismiss()
@@ -55,6 +60,10 @@ class NewOptionsPopupWindow(
             dismiss()
         })
 
+//        contentView.findViewById<TextView>(R.id.text_refresh)?.setOnHoverListener { v: View, event: MotionEvent ->
+//            false
+//        }
+
         contentView.findViewById<TextView>(R.id.text_display_settings)?.setOnHoverListener { v: View, event: MotionEvent ->
             if (popupChildWindow != null && popupChildWindow!!.isShowing) {
                 popupChildWindow!!.dismiss()
@@ -62,6 +71,14 @@ class NewOptionsPopupWindow(
             LogTool.i("ACTION_HOVER_MOVE text_display_settings ")
             false
         }
+
+        contentView.findViewById<TextView>(R.id.txtSystemTheme)?.setOnClickListener({
+            false
+        })
+
+        contentView.findViewById<TextView>(R.id.txtSort)?.setOnClickListener({
+            true
+        })
 
         contentView.findViewById<RelativeLayout>(R.id.layout_system_theme)?.setOnHoverListener { v: View, event: MotionEvent ->
             when (event.action) {

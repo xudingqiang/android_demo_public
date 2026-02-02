@@ -29,6 +29,8 @@ import android.os.UserHandle;
 import android.os.UserManager;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -55,7 +57,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class EventbusTestActivity extends AppCompatActivity {
+public class EventbusTestActivity extends AppCompatActivity implements View.OnClickListener {
     ImageView backgroundImageView;
     ImageView foregroundImageView;
     ImageView imgApp;
@@ -152,9 +154,11 @@ public class EventbusTestActivity extends AppCompatActivity {
         Drawable drawable = ContextCompat.getDrawable(this, R.drawable.ic_launcher_background);
         Bitmap backgroundBitmap;
 
-        backgroundBitmap = vectorToBitmap(this, R.drawable.ic_launcher_background);
-        Bitmap bb = vectorToBitmap(this, R.mipmap.flag_linux);
-        Bitmap b = overlayBitmaps(backgroundBitmap, bb);
+        backgroundBitmap = vectorToBitmap(this, R.mipmap.ic_doc_video);
+        Bitmap bb = vectorToBitmap(this, R.mipmap.bg_android_bak);
+        backgroundBitmap = scaleBitmap(backgroundBitmap, 200, 200);
+        bb = scaleBitmap(bb, 200, 200);
+        Bitmap b = overlayBitmaps(backgroundBitmap,bb);
         setBitmapToTextView(textView, b);
 
 //        backgroundBitmap = vectorToBitmap(this, R.drawable.ic_launcher_background);
@@ -187,13 +191,13 @@ public class EventbusTestActivity extends AppCompatActivity {
             Map<String,String> mmm = config.get("Desktop Entry");
             String str="";
 //            String value = config.get("Desktop Entry").get("Name[zh_CN]");
-            for (Map.Entry<String, String> entry : mmm.entrySet()) {
-                String key = entry.getKey();
-                String value = entry.getValue();
-                LogTool.w("Key: " + key + ", Value: " + value);
-                str += "Key: " + key + ", Value: " + value+"\n";
-                textView.setText(str);
-            }
+//            for (Map.Entry<String, String> entry : mmm.entrySet()) {
+//                String key = entry.getKey();
+//                String value = entry.getValue();
+//                LogTool.w("Key: " + key + ", Value: " + value);
+//                str += "Key: " + key + ", Value: " + value+"\n";
+//                textView.setText(str);
+//            }
 
 
         } catch (IOException e) {
@@ -257,6 +261,25 @@ public class EventbusTestActivity extends AppCompatActivity {
         }
 
         return thirdPartyApps;
+    }
+
+    @Override
+    public void onClick(View v) {
+
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        LogTool.w("onKeyUp keyCode: "+keyCode + ",action: "+event.getAction());
+        return super.onKeyUp(keyCode, event);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        int toolType = event.getToolType(0);
+        int action = event.getAction() ;
+        LogTool.w("onTouchEvent toolType : "+toolType + ",action: "+action);
+        return super.onTouchEvent(event);
     }
 
     private List<ApplicationInfo> getAllApp(Context context) {
@@ -423,12 +446,12 @@ public class EventbusTestActivity extends AppCompatActivity {
     public Bitmap overlayBitmaps(Bitmap bitmap1, Bitmap bitmap2 ) {
         // 创建一个与第一个 Bitmap 相同大小的空白 Bitmap
 //        Bitmap overlayBitmap = Bitmap.createBitmap(bitmap1.getWidth(), bitmap1.getHeight(), bitmap1.getConfig());
-        Bitmap overlayBitmap = Bitmap.createBitmap(bitmap1.getWidth()+bitmap2.getWidth(), bitmap1.getHeight()+bitmap2.getHeight(), bitmap1.getConfig());
+        Bitmap overlayBitmap = Bitmap.createBitmap(bitmap2.getWidth(), bitmap2.getHeight(), bitmap1.getConfig());
         // 创建 Canvas，将第一个 Bitmap 作为底图
         Canvas canvas = new Canvas(overlayBitmap);
-        canvas.drawBitmap(bitmap1, 0, 0, null);  // 将 bitmap1 绘制到 canvas 上
+        canvas.drawBitmap(bitmap1, 0,0, null);  // 将 bitmap1 绘制到 canvas 上
         // 将第二个 Bitmap 绘制到 Canvas 上，叠加在第一个 Bitmap 上
-        canvas.drawBitmap(bitmap2, 48,36, null);  // 将 bitmap2 绘制到 canvas 上
+        canvas.drawBitmap(bitmap2, 0,0, null);  // 将 bitmap2 绘制到 canvas 上
         // 将叠加后的 Bitmap 设置到 ImageView
         return overlayBitmap;
     }

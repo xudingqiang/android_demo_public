@@ -2,7 +2,6 @@ package com.bella.android_demo_public.activity;
 
 import android.content.Context;
 import android.graphics.Insets;
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Debug;
@@ -17,14 +16,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bella.android_demo_public.R;
 import com.bella.android_demo_public.utils.LogTool;
+import com.fde.baselib.Animation.AnimDrawablePlayer;
+import com.fde.baselib.Animation.AnimFactory;
 
 public class AnimationTestActivity extends AppCompatActivity {
     Button btnStart ;
     Button btnEnd ;
     ImageView imgView;
-    AnimationDrawable animationDrawable ;
+//    AnimationDrawable animationDrawable ;
     private static Context leakContext;
     private static AnimationTestActivity animationTestActivity;
+
+    AnimDrawablePlayer animDrawablePlayer ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +42,10 @@ public class AnimationTestActivity extends AppCompatActivity {
         leakContext = this;
         animationTestActivity =  this ;
 
-        imgView.setBackgroundResource(R.drawable.frame_animation);
-        animationDrawable = (AnimationDrawable)imgView.getBackground();
+//        imgView.setBackgroundResource(R.drawable.frame_animation);
+//        animationDrawable = (AnimationDrawable)imgView.getBackground();
+
+        animDrawablePlayer = AnimFactory.INSTANCE.loading(leakContext,imgView);
 
         Debug.MemoryInfo memoryInfo = new Debug.MemoryInfo();
         Debug.getMemoryInfo(memoryInfo);
@@ -72,12 +77,14 @@ public class AnimationTestActivity extends AppCompatActivity {
         }
 
         btnStart.setOnClickListener(view ->{
-            animationDrawable.start();
+            animDrawablePlayer.start();
+//            animationDrawable.start();
         });
 
 
         btnEnd.setOnClickListener(view ->{
-            animationDrawable.stop();
+            animDrawablePlayer.stop();
+//            animationDrawable.stop();
         });
 
     }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginVertical="12dp"
+        android:paddingHorizontal="8dp"
+        android:textSize="14sp"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
+        android:background="@drawable/edittext_border"
+        android:hint="请输入内容"/>
+
+</LinearLayout>

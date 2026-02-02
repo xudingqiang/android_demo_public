@@ -8,6 +8,7 @@ import android.os.Message;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +28,7 @@ public class RoomTestActivity extends AppCompatActivity implements View.OnClickL
     private WindowManager mWindowManager;
     private WindowManager.LayoutParams mLayoutParams;
     private float mTouchX, mTouchY;
+    int index = 0 ;
 
     Handler mHander = new Handler() {
         @Override
@@ -145,6 +147,16 @@ public class RoomTestActivity extends AppCompatActivity implements View.OnClickL
         }).start();
     }
 
+    @Override
+    public void onBackPressed() {
+//        if(index == 0 ){
+//            Toast.makeText(context,"再次按才返回",Toast.LENGTH_SHORT).show();
+//            index++ ;
+//            return;
+//        }
+
+        super.onBackPressed();
+    }
 
     @Override
     public void onClick(View view) {
@@ -164,5 +176,43 @@ public class RoomTestActivity extends AppCompatActivity implements View.OnClickL
 
         }
 
+    }
+
+    @Override
+    protected void onStart() {
+
+        LogTool.w("onStart  ---  "+this.getLocalClassName());
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LogTool.w("onResume  ---  "+this.getLocalClassName());
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        LogTool.w("onStop  ---  "+this.getLocalClassName());
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        LogTool.w("onPause  ---  "+this.getLocalClassName());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LogTool.w("onDestroy  ---  "+this.getLocalClassName());
     }
 }

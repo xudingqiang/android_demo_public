@@ -1,9 +1,15 @@
 package com.bella.android_demo_public.activity
 
 import android.app.Activity
+import android.app.ActivityOptions
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
+import android.graphics.Rect
 import android.os.Bundle
+import android.provider.Settings
+import android.widget.Toolbar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +24,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-class AppsListActivity : Activity() {
+class AppsListActivity : AppCompatActivity() {
     lateinit var recyclerView: RecyclerView;
     lateinit var adapter: AppListAdapter;
     lateinit var list: MutableList<ItemInfo> ;
@@ -32,105 +38,140 @@ class AppsListActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_apps_list)
+
         context = this;
         recyclerView = findViewById<RecyclerView>(R.id.recyclerView)!!
         recyclerView.layoutManager = GridLayoutManager(this, 8, RecyclerView.HORIZONTAL,false)
         // 数据初始化
         list = ArrayList()
 
+//        getActionBar()?.setDisplayHomeAsUpEnabled(true);
+//        val toolbar :androidx.appcompat.widget.Toolbar ;
+//        toolbar = findViewById<Toolbar>(R.id.toolbar) as androidx.appcompat.widget.Toolbar
+//        setSupportActionBar(toolbar)
+        getActionBar()?.show()
+        getActionBar()?.setDisplayHomeAsUpEnabled(true);
+        // 隐藏 Toolbar 中的返回按钮
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+//        toolbar?.navigationIcon = null // 直接隐藏图标
+
+        //startActivity(new Intent(context, SettingsActivity.class));
+//            Intent intent = new Intent();
+//            ComponentName cn = ComponentName.unflattenFromString("com.ets100.secondary/.ui.main.MainActivity");
+        //            intent.setComponent(cn);
+
+//            Intent intent = getPackageManager().getLaunchIntentForPackage("com.android.documentsui");
+//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            startActivity(intent);
+
+        //startActivity(new Intent(context, SettingsActivity.class));
+//            Intent intent = new Intent();
+//            ComponentName cn = ComponentName.unflattenFromString("com.ets100.secondary/.ui.main.MainActivity");
+        //            intent.setComponent(cn);
+
+//            Intent intent = getPackageManager().getLaunchIntentForPackage("com.android.documentsui");
+//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            startActivity(intent);
+//        val options = ActivityOptions.makeBasic()
+//        options.setLaunchBounds(Rect(10, 10, 600, 400))
+//        val `in` = Intent(Settings.ACTION_DISPLAY_SETTINGS)
+//        `in`.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//        startActivity(`in`, options.toBundle())
+
         //        registerForContextMenu(test14);
 //        val list: MutableList<String> = java.util.ArrayList()
 //        list.add("")
 
         //        registerForContextMenu(test14);
-        for (i in 0..maxX) {
-            for (j in 0..maxY) {
-                var  info :ItemInfo = ItemInfo((i*14+j),""+(i*14+j),i,j,"","");
-                list.add(info)
-            }
-        }
-
-        MainScope().launch(Dispatchers.Main) {
-            val tempList = withContext(Dispatchers.IO) {
-                NetUtils.getLinuxDesktopApp() as List<ItemInfo>
-            }
-
-            if(tempList !=null && tempList.size >0 ){
-                for(i in 0 .. tempList.size-1 ){
-                    list[i] = tempList.get(i)
-                }
-            }
-
-            adapter = AppListAdapter(context,list)
-            recyclerView.adapter = adapter
-        }
-
-
-        val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.Callback() {
-            override fun isLongPressDragEnabled(): Boolean = true
-            override fun isItemViewSwipeEnabled(): Boolean = false
-
-
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                 fromPosition = viewHolder.adapterPosition
-                 toPosition = target.adapterPosition
-
-                // 通知适配器移动项目
-                if(adapter != null){
-                    LogTool.i("onMove fromPosition : "+fromPosition + ",toPosition: "+toPosition)
-                    adapter.moveItem(fromPosition, toPosition)
-//                    adapter.notifyDataSetChanged()
-//                    adapter.notifyItemChanged(fromPosition)
-//                    adapter.notifyItemChanged(toPosition)
-                }
-                return true
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                LogTool.i("onSwiped "+direction)
-                // No-op, we don't want to swipe items
-            }
-
-            override fun getMovementFlags(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder
-            ): Int {
-                val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN or
-                        ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-                val swipeFlags = 0
-                LogTool.i("getMovementFlags "+dragFlags)
-                return makeMovementFlags(dragFlags, swipeFlags)
-               // return super.getMovementFlags(recyclerView, viewHolder)
-            }
-
-            override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
-                super.onSelectedChanged(viewHolder, actionState)
-                LogTool.i("onSelectedChanged fromPosition: "+fromPosition +" ,toPosition: "+toPosition)
-                when (actionState) {
-                    ItemTouchHelper.ACTION_STATE_DRAG -> {
-                        // 拖拽开始时改变项目外观
-                        viewHolder?.itemView?.setBackgroundColor(context.getColor(R.color.desktop_select_bg))
-                    }
-                    ItemTouchHelper.ACTION_STATE_IDLE ->{
-                        adapter.swap(fromPosition,toPosition)
-                    }
-                }
-            }
-
-            override fun clearView(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder
-            ) {
-                super.clearView(recyclerView, viewHolder)
-                viewHolder.itemView.setBackgroundColor(Color.TRANSPARENT)
-            }
-        })
-
-        itemTouchHelper.attachToRecyclerView(recyclerView)
+//        for (i in 0..maxX) {
+//            for (j in 0..maxY) {
+//                var  info :ItemInfo = ItemInfo((i*14+j),""+(i*14+j),i,j,"","");
+//                list.add(info)
+//            }
+//        }
+//
+//        MainScope().launch(Dispatchers.Main) {
+//            val tempList = withContext(Dispatchers.IO) {
+//                NetUtils.getLinuxDesktopApp() as List<ItemInfo>
+//            }
+//
+//            if(tempList !=null && tempList.size >0 ){
+//                for(i in 0 .. tempList.size-1 ){
+//                    list[i] = tempList.get(i)
+//                }
+//            }
+//
+//            adapter = AppListAdapter(context,list)
+//            recyclerView.adapter = adapter
+//        }
+//
+//
+//        val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.Callback() {
+//            override fun isLongPressDragEnabled(): Boolean = true
+//            override fun isItemViewSwipeEnabled(): Boolean = false
+//
+//
+//            override fun onMove(
+//                recyclerView: RecyclerView,
+//                viewHolder: RecyclerView.ViewHolder,
+//                target: RecyclerView.ViewHolder
+//            ): Boolean {
+//                 fromPosition = viewHolder.adapterPosition
+//                 toPosition = target.adapterPosition
+//
+//                // 通知适配器移动项目
+//                if(adapter != null){
+//                    LogTool.i("onMove fromPosition : "+fromPosition + ",toPosition: "+toPosition)
+//                    adapter.moveItem(fromPosition, toPosition)
+////                    adapter.notifyDataSetChanged()
+////                    adapter.notifyItemChanged(fromPosition)
+////                    adapter.notifyItemChanged(toPosition)
+//                }
+//                return true
+//            }
+//
+//            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+//                LogTool.i("onSwiped "+direction)
+//                // No-op, we don't want to swipe items
+//            }
+//
+//            override fun getMovementFlags(
+//                recyclerView: RecyclerView,
+//                viewHolder: RecyclerView.ViewHolder
+//            ): Int {
+//                val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN or
+//                        ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+//                val swipeFlags = 0
+//                LogTool.i("getMovementFlags "+dragFlags)
+//                return makeMovementFlags(dragFlags, swipeFlags)
+//               // return super.getMovementFlags(recyclerView, viewHolder)
+//            }
+//
+//            override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
+//                super.onSelectedChanged(viewHolder, actionState)
+//                LogTool.i("onSelectedChanged fromPosition: "+fromPosition +" ,toPosition: "+toPosition)
+//                when (actionState) {
+//                    ItemTouchHelper.ACTION_STATE_DRAG -> {
+//                        // 拖拽开始时改变项目外观
+//                        viewHolder?.itemView?.setBackgroundColor(context.getColor(R.color.desktop_select_bg))
+//                    }
+//                    ItemTouchHelper.ACTION_STATE_IDLE ->{
+//                        adapter.swap(fromPosition,toPosition)
+//                    }
+//                }
+//            }
+//
+//            override fun clearView(
+//                recyclerView: RecyclerView,
+//                viewHolder: RecyclerView.ViewHolder
+//            ) {
+//                super.clearView(recyclerView, viewHolder)
+//                viewHolder.itemView.setBackgroundColor(Color.TRANSPARENT)
+//            }
+//        })
+//
+//        itemTouchHelper.attachToRecyclerView(recyclerView)
 
     }
 }

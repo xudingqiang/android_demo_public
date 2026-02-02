@@ -35,4 +35,15 @@ public class BackgroundView extends View {
         paint.setColor(Color.argb(255, 204, 204, 204));
         canvas.drawPath(path, paint);
     }
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+    }
+
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
 }

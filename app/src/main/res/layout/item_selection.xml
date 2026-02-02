@@ -5,8 +5,11 @@
 
     <TextView
         android:id="@+id/text"
-        android:layout_width="match_parent"
+        android:layout_width="15in"
+        android:text="111"
         android:padding="16dp"
+        android:layout_gravity="right"
+        android:gravity="right"
         android:layout_height="wrap_content"/>
 
 </LinearLayout>

@@ -1,0 +1,26 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 第一个刻度，在进度20%的位置，显示为红色圆点 -->
+    <item
+       >
+        <shape
+            android:shape="oval">
+            <solid android:color="#FF0000" />
+            <size
+                android:width="8dp"
+                android:height="8dp" />
+        </shape>
+    </item>
+    <!-- 第二个刻度，在进度50%的位置，显示为蓝色矩形 -->
+    <item
+        >
+        <shape
+            android:shape="rectangle">
+            <solid android:color="#0000FF" />
+            <size
+                android:width="3dp"
+                android:height="12dp" />
+        </shape>
+    </item>
+    <!-- 第三个刻度，在进度80%的位置，显示为绿色三角形（需使用vector） -->
+    <!-- 这里仅示意，实际需要更复杂的定义 -->
+</layer-list>
