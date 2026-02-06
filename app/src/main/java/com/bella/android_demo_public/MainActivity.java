@@ -21,8 +21,6 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.hardware.display.DisplayManager;
 import android.net.Uri;
-//import android.openfde.AppTaskControllerProxy;
-//import android.openfde.AppTaskStatusListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -64,6 +62,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
@@ -157,7 +156,6 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
     private TextToSpeech tts;
 
-//    AppTaskControllerProxy appTaskControllerProxy;
 
 
     private ViewTreeObserver.OnGlobalFocusChangeListener focusChangeListener;
@@ -228,6 +226,8 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
         getWindowManager().getDefaultDisplay().getRealSize(size);
         int realWidth = size.x;
         int realHeight = size.y;
+
+        Toolbar toolbar;
 
 
         LogTool.w("content width " + params.width + " ,screenWidthDp " + screenWidthDp);
@@ -634,15 +634,6 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
         setContentView(R.layout.activity_main);
         initView();
 
-//        appTaskControllerProxy  = AppTaskControllerProxy.create();
-//        appTaskControllerProxy.initCustomCaption(new WeakReference<>(this), new AppTaskStatusListener() {
-//            @Override
-//            public void onStatusChanged(int windowingMode, boolean isSystemBarVisible) {
-////                String status = this.getStatus(windowingMode, isSystemBarVisible);
-//                Log.w(TAG, "onStatusChanged: windowingMode " + windowingMode +" ,isSystemBarVisible "+isSystemBarVisible);
-//
-//            }
-//        }, false);
 
 //        LockingContentObserver mObserver = new LockingContentObserver(new ContentLock(),  () -> {
 //            Log.i(TAG,"ContentLock........ ");

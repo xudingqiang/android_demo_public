@@ -11,7 +11,7 @@
         android:layout_width="220px"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:background="#000fff"
+        android:background="#ff00ff"
         android:orientation="vertical"
         android:padding="16dp">
 

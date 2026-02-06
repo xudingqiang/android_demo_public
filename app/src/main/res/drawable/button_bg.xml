@@ -3,7 +3,7 @@
   <!-- 状态1：鼠标悬停 (API Level 14及以上) -->
   <item android:state_hovered="true">
     <shape>
-      <solid android:color="#0d000000" /> <!-- 悬停时的背景色 -->
+      <solid android:color="#00BCD4" /> <!-- 悬停时的背景色 -->
       <corners android:radius="8dp" /> <!-- 圆角（可选） -->
     </shape>
   </item>
@@ -11,7 +11,7 @@
   <!-- 状态2：按下 -->
   <item android:state_pressed="true">
     <shape>
-      <solid android:color="#1f000000" /> <!-- 按下时的背景色 -->
+      <solid android:color="#2196F3" /> <!-- 按下时的背景色 -->
       <corners android:radius="8dp" />
     </shape>
   </item>
@@ -19,7 +19,7 @@
   <!-- 状态3：默认状态（必须放在最后） -->
   <item android:state_hovered="false" android:state_pressed="false">
     <shape>
-      <solid android:color="#F9FAFC" /> <!-- 默认背景色 -->
+      <solid android:color="#1f000000" /> <!-- 默认背景色 -->
       <corners android:radius="8dp" />
     </shape>
   </item>

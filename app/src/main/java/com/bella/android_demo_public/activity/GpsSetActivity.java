@@ -251,7 +251,6 @@ public class GpsSetActivity extends AppCompatActivity {
             }
         });
 
-
         String locationGps = Settings.Global.getString(context.getContentResolver(), "locationGps");
 //        LogTools.i("locationGps: " + locationGps);
         if (locationGps != null) {
